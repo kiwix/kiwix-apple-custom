@@ -35,7 +35,7 @@ jobs:
           ref: main
           path: custom
 
-      - run: mv -r custom/ .
+      - run: mv custom/*.* .
       - run: ls -la
           
       # Run XcodeGen
