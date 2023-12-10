@@ -31,7 +31,6 @@ jobs:
         with:
           repository: kiwix/apple
           ref: main
-          path: kiwix-apple-custom
           
 
       # Run XcodeGen
