@@ -37,10 +37,14 @@ jobs:
 
       # move the custom files to the same folder
       - run: mv custom/*.* .
-      
+
+      # check file list
       - run: ls -la
           
       # Run XcodeGen
       - run: brew install xcodegen
       - run: xcodegen
+
+      # check file list
+      - run: ls -la
 
