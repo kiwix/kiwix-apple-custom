@@ -34,7 +34,7 @@ jobs:
           repository: kiwix/apple
           ref: main
 
-      - shell: zsh
+      - shell: bash
         run: ls -la
           
       # Run XcodeGen
