@@ -35,14 +35,12 @@ jobs:
           ref: main
           path: custom
 
+      # move the custom files to the same folder
       - run: mv custom/*.* .
+      
       - run: ls -la
           
       # Run XcodeGen
-      - uses: xavierLowmiller/xcodegen-action@1.1.2
-        with:
-          spec: project.yml
-          quiet: false
-          version: '2.38.0'
-          use-cache: true
+      - run: brew install xcodegen
+      - run: xcodegen
 
