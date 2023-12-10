@@ -34,6 +34,6 @@ jobs:
         with:
           spec: project.yaml
           quiet: false
-          version: '2.15.1'
+          version: '2.38.0'
           use-cache: true
 
