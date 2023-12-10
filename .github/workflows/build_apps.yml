@@ -22,20 +22,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+
+      # Checks-out the kiwix/apple repository
+      - uses: actions/checkout@v4
+        with:
+          repository: kiwix/apple
+          ref: main
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
         with:
           ref: main
-          
-      # Checks-out the kiwix/apple repository as well
-      - uses: actions/checkout@v4
-        with:
-          repository: kiwix/apple
-          ref: main
+          path: custom
 
-      - shell: bash
-        run: ls -la
+      - run: mv -r custom/ .
+      - run: ls -la
           
       # Run XcodeGen
       # - uses: xavierLowmiller/xcodegen-action@1.1.2
