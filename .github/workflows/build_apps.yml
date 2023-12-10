@@ -40,11 +40,12 @@ jobs:
 
       # check file list
       - run: ls -la
+      - run: ls -la Kiwix.xcodeproj
           
       # Run XcodeGen
       - run: brew install xcodegen
       - run: xcodegen
 
       # check file list
-      - run: ls -la
+      - run: ls -la Kiwix.xcodeproj
 
