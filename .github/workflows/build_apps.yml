@@ -36,16 +36,5 @@ jobs:
           path: custom
 
       # move the custom files to the same folder
-      - run: mv custom/*.* .
-
-      # check file list
-      - run: ls -la
-      - run: ls -la Kiwix.xcodeproj
-          
-      # Run XcodeGen
-      - run: brew install xcodegen
-      - run: xcodegen
-
-      # check file list
-      - run: ls -la Kiwix.xcodeproj
-
+      - run: ./build_project.zsh
+      
