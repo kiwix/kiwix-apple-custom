@@ -28,10 +28,12 @@ jobs:
         with:
           repository: kiwix/apple
           ref: main
+          path: apple
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
         with:
+          repository: kiwix/kiwix-apple-custom
           ref: main
           path: custom
 
