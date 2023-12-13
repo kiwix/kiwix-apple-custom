@@ -37,6 +37,10 @@ jobs:
           ref: main
           path: custom
 
+      - run: ls -la
+      - run: ls -la custom/
+      - run: ls -la apple/
+
       # copy build file to the main folder and run from there
       - run: cp custom/build_project.zsh .
       - run: build_project.zsh
