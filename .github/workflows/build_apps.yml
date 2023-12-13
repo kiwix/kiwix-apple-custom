@@ -38,5 +38,6 @@ jobs:
           path: custom
 
       # move build file to the main folder and run from there
-      - run: mv custom/build_project.zsh . && ./build_project.zsh
+      - run: mv custom/build_project.zsh .
+      - run: build_project.zsh
       
