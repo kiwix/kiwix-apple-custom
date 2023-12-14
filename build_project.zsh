@@ -10,8 +10,7 @@ cd apple
 #download custom zim files as per info_local.json files
 brew install jq
 
-# for info in `mdfind -onlyin . -name info.json`
-for info in `mdfind -onlyin . -name info_local.json`
+for info in `mdfind -onlyin . -name info.json`
 do
     parent_dir=${info%/*}
     brand_name=${parent_dir##*/}
