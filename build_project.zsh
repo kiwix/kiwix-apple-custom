@@ -7,7 +7,7 @@ lib_kiwix_framework="libkiwix_xcframework-13.0.0-1"
 mv custom/ apple/Support/
 cd apple
 
-#download custom zim files as per info_local.json files
+#download custom zim files as per info.json files
 brew install jq
 
 for info in `mdfind -onlyin . -name info.json`
