@@ -19,13 +19,15 @@ do
 
     url=`jq .zim_url -r $info`
     auth=`jq .zim_auth -r $info`
+    about_url=`jq .about_app_url -r $info`
     
     parent_url=${url%/*}
     file_name=${url:${#parent_url} + 1} # + 1 to remove the trailing slash
 
     auth_value=`print -rl -- ${(P)auth}` # get the credentials from environment var named by .zim_auth in the json
     curl -O -L $url -u "$auth_value" $parent_dir/$file_name
-    echo "CUSTOM_ZIM_FILE = "${file_name%.zim} > apple/$brand_name/$brand_name.xcconfig
+    echo "CUSTOM_ZIM_FILE = "${file_name%.zim}"\n" > apple/$brand_name/$brand_name.xcconfig
+    echo "CUSTOM_ABOUT_WEBSITE = "${about_url}"\n" > apple/$brand_name/$brand_name.xcconfig
 done
 
 # download libkiwix xcframework
