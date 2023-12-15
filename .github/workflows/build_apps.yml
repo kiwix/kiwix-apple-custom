@@ -41,6 +41,7 @@ jobs:
       - run: ls -la custom/
       - run: ls -la apple/
 
+      - run: mv custom/project.yml apple/
       # copy build file to the main folder and run from there
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
