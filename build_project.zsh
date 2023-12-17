@@ -18,17 +18,18 @@ do
 
     url=`jq .zim_url -r $info`
     auth=`jq .zim_auth -r $info`
-    about_url=`jq .about_app_url -r $info`
-    about_text=`jq .about_text -r $info`
     
     parent_url=${url%/*}
     file_name=${url:${#parent_url} + 1} # + 1 to remove the trailing slash
 
     auth_value=`print -rl -- ${(P)auth}` # get the credentials from environment var named by .zim_auth in the json
     curl -O -L $url -u "$auth_value" $parent_dir/$file_name
-    echo "CUSTOM_ZIM_FILE = "${file_name%.zim}"\n" > custom/$brand_name/$brand_name.xcconfig
-    echo "CUSTOM_ABOUT_WEBSITE = "${about_url}"\n" > custom/$brand_name/$brand_name.xcconfig
-    echo "CUSTOM_ABOUT_TEXT = "${about_text}"\n" > custom/$brand_name/$brand_name.xcconfig
+
+    python src/configure.py --output xcconfig $info > custom/$brand_name/$brand_name.xcconfig
+    echo "app name"
+    echo python src/configure.py --output app_name $info
+    echo "app version"
+    echo python src/configure.py --output app_version $info
 done
 
 # download libkiwix xcframework
