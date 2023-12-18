@@ -4,7 +4,7 @@ from src.info_parser import InfoParser
 class InfoParserTest(unittest.TestCase):
     
     def setUp(self):
-        self.parser = InfoParser("tests/test_info.json")
+        self.parser = InfoParser("tests/test.json")
     
     def test_json_to_xcconfig(self):
         xcconfig = self.parser.as_xcconfig()
