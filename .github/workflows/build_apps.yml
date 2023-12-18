@@ -44,5 +44,8 @@ jobs:
       # copy build file to the main folder and run from there
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
-      - run: zsh ./build_project.zsh
+      - name: Build Project
+        env:
+          DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
+        run: zsh ./build_project.zsh
       
