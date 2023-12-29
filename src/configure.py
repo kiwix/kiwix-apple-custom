@@ -1,4 +1,4 @@
-"""Parse a given info.json file and output the content as xcconfig || app_version || app_name."""
+"""Parse a given info.json file and output the content as xcconfig || app_version || app_name || enforced_language."""
 
 import argparse
 import os
@@ -20,7 +20,8 @@ def info_file_type(string):
 def parse_args():
     parser = argparse.ArgumentParser(description="Generate xcconfig file content from an info.json file")
     parser.add_argument('info_file', type=info_file_type)
-    parser.add_argument('--output', choices=['xcconfig', 'app_version', 'app_name'], default='xcconfig')
+    parser.add_argument(
+        '--output', choices=['xcconfig', 'app_version', 'app_name', 'enforced_language'], default='xcconfig')
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -34,5 +35,7 @@ if __name__ == "__main__":
             print(parser.app_version())
         case 'app_name':
             print(parser.app_name())
+        case 'enforced_language':
+            print(parser.enforced_language())
     
     
