@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: kiwix/apple
-          ref: main
+          ref: feature/xcodegen-brew
           path: apple
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -40,6 +40,9 @@ jobs:
       - run: ls -la
       - run: ls -la custom/
       - run: ls -la apple/
+
+      - run: cd custom && brew bundle && cd ..
+      - run: cd apple && brew bundle && cd ..
 
       - run: mv custom/project.yml apple/
       # copy build file to the main folder and run from there
