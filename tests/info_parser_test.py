@@ -26,6 +26,10 @@ class InfoParserTest(unittest.TestCase):
         app_name = self.parser.app_name()
         self.assertEqual(app_name, "DWDS")
         
+    def test_enforced_language(self):
+        enforced_language = self.parser.enforced_language()
+        self.assertEqual(enforced_language, "de")
+        
     def test_app_version(self):
         self.assertEqual(self.parser.app_version(), "2023.11")
         
