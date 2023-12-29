@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: kiwix/kiwix-apple-custom
-          ref: main
+          ref: feature/1-DWDS-build-script
           path: custom
 
       - run: ls -la
