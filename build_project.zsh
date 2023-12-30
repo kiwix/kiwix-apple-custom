@@ -29,9 +29,21 @@ do
     python src/configure.py --output app_version $info
     echo "enforced language"
     python src/configure.py --output enforced_language $info
+
+    # copy the Info.plist file to custom folder
+    cp ../Support/Info.plist $brand_name/$brand_name.plist
+
+    # TODO: do this only once as Custom.plist, then just copy to the $brand folder as above
+    /usr/libexec/PlistBuddy -c "Add :CUSTOM_ZIM_FILE string \$(CUSTOM_ZIM_FILE)" $brand_name/$brand_name.plist
+    /usr/libexec/PlistBuddy -c "Add :CUSTOM_ABOUT_TEXT string \$(CUSTOM_ABOUT_TEXT)" $brand_name/$brand_name.plist
+    /usr/libexec/PlistBuddy -c "Add :CUSTOM_ABOUT_WEBSITE string \$(CUSTOM_ABOUT_WEBSITE)" $brand_name/$brand_name.plist
+    /usr/libexec/PlistBuddy -c "Add :SETTINGS_DEFAULT_EXTERNAL_LINK_TO string \$(SETTINGS_DEFAULT_EXTERNAL_LINK_TO)" $brand_name/$brand_name.plist
+    /usr/libexec/PlistBuddy -c "Add :SETTINGS_SHOW_EXTERNAL_LINK_OPTION string \$(SETTINGS_SHOW_EXTERNAL_LINK_OPTION)" $brand_name/$brand_name.plist
+    /usr/libexec/PlistBuddy -c "Add :SETTINGS_SHOW_SEARCH_SNIPPET string \$(SETTINGS_SHOW_SEARCH_SNIPPET)" $brand_name/$brand_name.plist
 done
 
 cd ..
 ls -la
-# run xcodegen again
-xcodegen
+
+# run xcodegen on our custom project:
+xcodegen -s custom_project.yml

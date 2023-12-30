@@ -1,0 +1,25 @@
+include:
+  - project.yml
+
+targets:
+  DWDS:
+    templates:
+      - ApplicationTemplate
+    settings:
+      base:
+        MARKETING_VERSION: "2023.12.3"
+        PRODUCT_BUNDLE_IDENTIFIER: org.kiwix.custom.dwds
+        INFOPLIST_FILE: custom/dwds/dwds.plist
+        INFOPLIST_KEY_CFBundleDisplayName: DWDS
+        INFOPLIST_KEY_UILaunchStoryboardName: Launch.storyboard
+        
+    configFiles:
+      Debug: custom/dwds/dwds.xcconfig
+      Release: custom/dwds/dwds.xcconfig
+    sources: 
+      - path: custom/dwds
+      - path: Support
+        excludes:
+          - "*.xcassets"
+          - "Info.plist"
+          - "**/qqq.lproj"
