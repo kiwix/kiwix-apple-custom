@@ -40,6 +40,9 @@ jobs:
       # Install the python dependencies
       - run: python -m pip install pyyaml
 
+      # Install main project dependencies
+      - run: cd apple && brew bundle && cd ..
+
       # copy build file to the main folder to be run from there
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
