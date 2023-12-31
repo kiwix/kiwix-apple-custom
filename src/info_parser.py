@@ -62,6 +62,7 @@ class InfoParser:
             },
             "sources": [
                 {"path": "custom/{}".format(self.brand_name)},
+                {"path": "custom/Launch.storyboard"},
                 {"path": "Support",
                  "excludes": [
                      "*.xcassets",
@@ -128,7 +129,7 @@ class InfoParser:
         else:
             excludes = []
             # exclude every lproj folder except the enforced one
-            for lang_file in glob('./**/*.lproj', recursive=True):
+            for lang_file in glob('../**/*.lproj', recursive=True):
                 if lang_file.endswith("{}.lproj".format(enforced)) == False:
                     file_name = os.path.basename(lang_file)
                     value = "**/{}".format(file_name)

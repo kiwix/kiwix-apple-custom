@@ -16,6 +16,9 @@ class CustomAppsTest(unittest.TestCase):
         self.custom.copy_plist("Custom.plist")
         os.system('rm Custom.plist')
         
+    def test_custom_project_creation(self):
+        self.custom.create_custom_project_file(path="custom_project_test.yml")
+        
     def x_test_downloads(self):
         self.custom.download_zim_files()
         
