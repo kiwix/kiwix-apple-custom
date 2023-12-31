@@ -12,9 +12,10 @@ cp ../Support/Info.plist Custom.plist
 # generate the custom project file containing all brands as targets
 python "src/generate_and_download.py"
 
+# move the custom project file to the main folder
 cp custom_project.yml ../
 cd ..
 ls -la
 
-# run xcodegen on our custom project:
+# run xcodegen on our custom project
 xcodegen -s custom_project.yml
