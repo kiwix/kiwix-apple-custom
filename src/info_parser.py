@@ -89,7 +89,8 @@ class InfoParser:
     @staticmethod
     def plist_commands():
         for value in (JSON_TO_XCCONFIG_MAPPING.values()):
-            yield InfoParser._add_to_plist_cmd(value)
+            if value != "APP_STORE_ID":
+                yield InfoParser._add_to_plist_cmd(value)
         yield InfoParser._add_to_plist_cmd(XCCONF_KEY_ZIM_FILE)
 
     # private
