@@ -47,11 +47,8 @@ jobs:
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
 
-      - name: Set env vars
+      - name: Build the projects
         env:
           DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
-        run: echo "evnironment vars were set"
-
-      - name: Build the projects
         run: zsh ./build_project.zsh
       
