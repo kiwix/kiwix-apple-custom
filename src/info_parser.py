@@ -88,11 +88,14 @@ class InfoParser:
 
     @staticmethod
     def plist_commands():
-        for value in JSON_TO_XCCONFIG_MAPPING.values():
-            if value != "APP_STORE_ID":
-                yield "/usr/libexec/PlistBuddy -c \"Add :{} string \$({})\"".format(value, value)
+        for value in (JSON_TO_XCCONFIG_MAPPING.values()):
+            yield InfoParser._add_to_plist_cmd(value)
+        yield InfoParser._add_to_plist_cmd(XCCONF_KEY_ZIM_FILE)
 
     # private
+    @staticmethod
+    def _add_to_plist_cmd(value):
+        return "/usr/libexec/PlistBuddy -c \"Add :{} string \$({})\"".format(value, value)
 
     def _app_version(self):
         return self._app_version_from(self.zim_file_name)
