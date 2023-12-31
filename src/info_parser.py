@@ -10,12 +10,12 @@ JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 XCCONF_KEY_ZIM_FILE = "CUSTOM_ZIM_FILE"
 JSON_TO_XCCONFIG_MAPPING = {
-    "about_app_url": "CUSTOM_ABOUT_WEBSITE",
-    "about_text": "CUSTOM_ABOUT_TEXT",
-    "app_store_id": "APP_STORE_ID",
-    "settings_default_external_link_to": "SETTINGS_DEFAULT_EXTERNAL_LINK_TO",
-    "settings_show_search_snippet": "SETTINGS_SHOW_SEARCH_SNIPPET",
-    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
+    "about_app_url": {"CUSTOM_ABOUT_WEBSITE": "string"},
+    "about_text": {"CUSTOM_ABOUT_TEXT": "string"},
+    "app_store_id": {"APP_STORE_ID": "string"},
+    "settings_default_external_link_to": {"SETTINGS_DEFAULT_EXTERNAL_LINK_TO": "string"},
+    "settings_show_search_snippet": {"SETTINGS_SHOW_SEARCH_SNIPPET": "bool"},
+    "settings_show_external_link_option": {"SETTINGS_SHOW_EXTERNAL_LINK_OPTION": "bool"}
 }
 
 
@@ -34,14 +34,14 @@ class InfoParser:
         data = self.data
         for json_key in data:
             if json_key in JSON_TO_XCCONFIG_MAPPING:
-                xcconfig_dict[JSON_TO_XCCONFIG_MAPPING[json_key]
+                xcconfig_dict[next(iter(JSON_TO_XCCONFIG_MAPPING[json_key]))
                               ] = data[json_key]
         xcconfig_dict[XCCONF_KEY_ZIM_FILE] = self.zim_file_name
         return self._format(xcconfig_dict)
 
     def xcconfig_path(self):
         return "{}/{}.xcconfig".format(self.brand_name, self.brand_name)
-    
+
     def info_plist_path(self):
         return "{}/{}.plist".format(self.brand_name, self.brand_name)
 
@@ -74,14 +74,14 @@ class InfoParser:
             ]
         }
         return {self.brand_name: dict}
-    
+
     def zimurl(self):
         return self.data[JSON_KEY_ZIM_URL]
-    
+
     def zim_file_path(self):
         url = self.zimurl()
         return "{}/{}".format(self.brand_name, os.path.basename(url))
-    
+
     def download_auth(self):
         auth_key = self.data[JSON_KEY_AUTH]
         return os.getenv(auth_key)
@@ -89,14 +89,16 @@ class InfoParser:
     @staticmethod
     def plist_commands():
         for value in (JSON_TO_XCCONFIG_MAPPING.values()):
-            if value != "APP_STORE_ID":
-                yield InfoParser._add_to_plist_cmd(value)
-        yield InfoParser._add_to_plist_cmd(XCCONF_KEY_ZIM_FILE)
+            for key in value:
+                type = value[key]
+                if key != "APP_STORE_ID":
+                    yield InfoParser._add_to_plist_cmd(key, type)
+        yield InfoParser._add_to_plist_cmd(XCCONF_KEY_ZIM_FILE, "string")
 
     # private
     @staticmethod
-    def _add_to_plist_cmd(value):
-        return "/usr/libexec/PlistBuddy -c \"Add :{} string \$({})\"".format(value, value)
+    def _add_to_plist_cmd(value, type):
+        return "/usr/libexec/PlistBuddy -c \"Add :{} {} \$({})\"".format(value, type, value)
 
     def _app_version(self):
         return self._app_version_from(self.zim_file_name)
