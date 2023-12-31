@@ -44,7 +44,7 @@ jobs:
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
 
-      - name: Build the project
+      - name: Build the projects
         env:
           DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
         run: zsh ./build_project.zsh
