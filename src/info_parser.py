@@ -51,7 +51,7 @@ class InfoParser:
             "settings": {"base": {
                 "MARKETING_VERSION": "{}.{}".format(self._app_version(), self.data["build_version"]),
                 "PRODUCT_BUNDLE_IDENTIFIER": "org.kiwix.custom.{}".format(self.brand_name),
-                "INFOPLIST_FILE": "custom/{}/{}.plist".format(self.brand_name, self.brand_name),
+                "INFOPLIST_FILE": "custom/{}".format(self.info_plist_path()),
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "Launch.storyboard"
             }
@@ -62,7 +62,9 @@ class InfoParser:
             },
             "sources": [
                 {"path": "custom/{}".format(self.brand_name)},
-                {"path": "custom/Launch.storyboard"},
+                {"path": "custom/Launch.storyboard",
+                 "destinationFilters": ["iOS"]
+                 },
                 {"path": "Support",
                  "excludes": [
                      "*.xcassets",

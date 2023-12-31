@@ -1,5 +1,5 @@
 from glob import glob
-from src.info_parser import InfoParser
+from info_parser import InfoParser
 import os
 import yaml
 
@@ -56,12 +56,3 @@ class CustomApps:
             file_path = parser.zim_file_path()
             auth = parser.download_auth()
             yield "curl -L {} -u {} -o {}".format(url, auth, file_path)
-
-            # url=`jq .zim_url -r $info`
-            # auth=`jq .zim_auth -r $info`
-
-            # parent_url=${url%/*}
-            # file_name=${url:${#parent_url} + 1} # + 1 to remove the trailing slash
-
-            # auth_value=`print -rl -- ${(P)auth}` # get the credentials from environment var named by .zim_auth in the json
-            # curl -L $url -u "$auth_value" -o $parent_dir/$file_name

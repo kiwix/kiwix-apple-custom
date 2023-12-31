@@ -10,7 +10,7 @@ if __name__ == "__main__":
     custom_apps.append_to(custom_plist)
     
     # then copy it to the brand folders
-    custom_apps.copy_plist()
+    custom_apps.copy_plist(custom_plist)
     
     # create the xcconfig files
     custom_apps.create_xcconfigs()
