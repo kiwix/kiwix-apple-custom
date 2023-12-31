@@ -37,14 +37,9 @@ jobs:
           ref: feature/1-DWDS-build-script
           path: custom
 
-      - run: ls -la
-      - run: ls -la custom/
-      - run: ls -la apple/
-
-      - run: cd custom && brew bundle && cd ..
+      # Install main repo dependencies
       - run: cd apple && brew bundle && cd ..
 
-      - run: mv custom/project.yml apple/
       # copy build file to the main folder and run from there
       - run: cp custom/build_project.zsh .
       - run: chmod +x build_project.zsh
