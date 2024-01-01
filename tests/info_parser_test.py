@@ -56,7 +56,7 @@ class InfoParserTest(unittest.TestCase):
         self.assertNotIn("**/de.lproj", excluded)
 
     def test_app_version(self):
-        self.assertEqual(self.parser._app_version(), "2023.12")
+        self.assertEqual(self.parser._app_version(), "2023.12.3")
 
     def test_plist_commands(self):
         InfoParser.plist_commands()

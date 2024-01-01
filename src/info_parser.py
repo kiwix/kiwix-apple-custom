@@ -49,12 +49,18 @@ class InfoParser:
         dict = {
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
-                "MARKETING_VERSION": "{}.{}".format(self._app_version(), self.data["build_version"]),
+                "MARKETING_VERSION": self._app_version(),
                 "PRODUCT_BUNDLE_IDENTIFIER": "org.kiwix.custom.{}".format(self.brand_name),
                 "INFOPLIST_FILE": "custom/{}".format(self.info_plist_path()),
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
-                "DEVELOPMENT_LANGUAGE": self._default_language()
+                "DEVELOPMENT_LANGUAGE": self._dev_language() 
+                # without specifying DEVELOPMENT_LANGUAGE, 
+                # the default value of it: English will be added to the list of 
+                # selectable languages in iOS Settings, 
+                # even if the en.lproj is excluded from the sources.
+                # If DEVELOPMENT_LANGUAGE is not added, enforcing a single language is not effective,
+                # therefore it's better to set it to the enforced language value if there's such.
             }
             },
             "configFiles": {
@@ -102,12 +108,12 @@ class InfoParser:
         return "/usr/libexec/PlistBuddy -c \"Add :{} {} \$({})\"".format(value, type, value)
 
     def _app_version(self):
-        return self._app_version_from(self.zim_file_name)
+        return "{}.{}".format(self._app_version_from(self.zim_file_name), self.data["build_version"])
 
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
     
-    def _default_language(self):
+    def _dev_language(self):
         enforced = self._enforced_language()
         if enforced == None:
             return "en"
