@@ -53,7 +53,8 @@ class InfoParser:
                 "PRODUCT_BUNDLE_IDENTIFIER": "org.kiwix.custom.{}".format(self.brand_name),
                 "INFOPLIST_FILE": "custom/{}".format(self.info_plist_path()),
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
-                "INFOPLIST_KEY_UILaunchStoryboardName": "Launch.storyboard"
+                "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
+                "DEVELOPMENT_LANGUAGE": self._default_language()
             }
             },
             "configFiles": {
@@ -62,7 +63,7 @@ class InfoParser:
             },
             "sources": [
                 {"path": "custom/{}".format(self.brand_name)},
-                {"path": "custom/Launch.storyboard",
+                {"path": "custom/SplashScreen.storyboard",
                  "destinationFilters": ["iOS"]
                  },
                 {"path": "Support",
@@ -105,6 +106,13 @@ class InfoParser:
 
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
+    
+    def _default_language(self):
+        enforced = self._enforced_language()
+        if enforced == None:
+            return "en"
+        else:
+            return enforced
 
     def _enforced_language(self):
         if JSON_KEY_ENFORCED_LANGUAGE in self.data:
