@@ -18,10 +18,10 @@ do that easily using Github UI. Go to
 https://github.com/kiwix/kiwix-apple-custom/new/main, put the name
 of your app (no space, lowercase only) and add a slash at the end.
 
-## Description json file
+## info.json file
 
 The configuration of the custom app is handled using the `info.json`
-file which is in the custom app folder. Take example on an already
+file which **is required to be placed in the custom app folder**. Take example on an already
 existing one if you need to create a new custom app. The most
 important fields are:
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. Currently it is not supporting slashes, and ``https://`` is prepended to the value provided here. (Eg. given "about_app_url": "www.dwds.de", the final link in the app will be: "https://www.dwds.de")
