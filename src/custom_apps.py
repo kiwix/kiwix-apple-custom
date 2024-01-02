@@ -30,8 +30,11 @@ class CustomApps:
     def copy_plist(self, custom_plist):
         for info in self.info_files:
             parser = InfoParser(info)
+            branded_plist = parser.info_plist_path()
             os.system("cp {} {}".format(
-                custom_plist, parser.info_plist_path()))
+                custom_plist, branded_plist))
+            for cmd in parser.append_to_plist_commands():
+                os.system("{} {}".format(cmd, branded_plist))
 
     def create_xcconfigs(self):
         for info in self.info_files:

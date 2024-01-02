@@ -9,8 +9,10 @@ JSON_KEY_AUTH = "zim_auth"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 XCCONF_KEY_ZIM_FILE = "CUSTOM_ZIM_FILE"
+JSON_TO_PLIST_MAPPING = {
+    "about_app_url": {"CUSTOM_ABOUT_WEBSITE": "string"}
+}
 JSON_TO_XCCONFIG_MAPPING = {
-    "about_app_url": {"CUSTOM_ABOUT_WEBSITE": "string"},
     "about_text": {"CUSTOM_ABOUT_TEXT": "string"},
     "app_store_id": {"APP_STORE_ID": "string"},
     "settings_default_external_link_to": {"SETTINGS_DEFAULT_EXTERNAL_LINK_TO": "string"},
@@ -92,6 +94,16 @@ class InfoParser:
     def download_auth(self):
         auth_key = self.data[JSON_KEY_AUTH]
         return os.getenv(auth_key)
+    
+    def append_to_plist_commands(self):
+        for jsonKey in JSON_TO_PLIST_MAPPING:
+            print(jsonKey)
+            if jsonKey in self.data:
+                plistObj = JSON_TO_PLIST_MAPPING[jsonKey]
+                for plistKey in plistObj:
+                    type = plistObj[plistKey]
+                    value = self.data[jsonKey]
+                    yield InfoParser._add_to_plist_cmd(plistKey, value, type)
 
     @staticmethod
     def plist_commands():
@@ -99,14 +111,18 @@ class InfoParser:
             for key in value:
                 type = value[key]
                 if key != "APP_STORE_ID":
-                    yield InfoParser._add_to_plist_cmd(key, type)
-        yield InfoParser._add_to_plist_cmd(XCCONF_KEY_ZIM_FILE, "string")
+                    yield InfoParser._add_var_to_plist_cmd(key, type)
+        yield InfoParser._add_var_to_plist_cmd(XCCONF_KEY_ZIM_FILE, "string")
 
     # private
     @staticmethod
-    def _add_to_plist_cmd(value, type):
-        return "/usr/libexec/PlistBuddy -c \"Add :{} {} \$({})\"".format(value, type, value)
+    def _add_var_to_plist_cmd(value, type):
+        return InfoParser._add_to_plist_cmd(value, "\$({})".format(value), type)
 
+    @staticmethod
+    def _add_to_plist_cmd(key, value, type):
+        return "/usr/libexec/PlistBuddy -c \"Add :{} {} {}\"".format(key, type, value)
+    
     def _app_version(self):
         return "{}.{}".format(self._app_version_from(self.zim_file_name), self.data["build_version"])
 
