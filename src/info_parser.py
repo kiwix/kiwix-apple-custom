@@ -165,14 +165,12 @@ class InfoParser:
         if enforced == None:
             return ["**/qqq.lproj"]
         else:
-            excludes = []
-            # exclude every lproj folder except the enforced one
-            for lang_file in glob('../**/*.lproj', recursive=True):
-                if lang_file.endswith("{}.lproj".format(enforced)) == False:
-                    file_name = os.path.basename(lang_file)
-                    value = "**/{}".format(file_name)
-                    excludes.append(value)
-            return excludes
+            # Copy the enforced lang to the custom folder
+            for lang_file in glob('../**/{}.lproj'.format(enforced), recursive=True):
+                os.system(
+                    "cp -r {} ../custom/{}/".format(lang_file, self.brand_name))
+            # exclude all other languages under Support/*.lproj
+            return ["**/*.lproj"]
 
     def _format(self, dictionary):
         list = []

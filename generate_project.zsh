@@ -13,7 +13,7 @@ cp ../Support/Info.plist Custom.plist
 python "src/generate_and_download.py"
 
 # move the custom project file to the main folder
-cp custom_project.yml ../
+mv custom_project.yml ../
 cd ..
 ls -la
 
