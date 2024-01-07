@@ -7,6 +7,9 @@ pre-configured ZIM file.
 This project contains data and scripts needed to create specific
  custom Kiwix Apple apps.
 
+[![CodeFactor](https://www.codefactor.io/repository/github/kiwix/kiwix-apple-custom/badge)](https://www.codefactor.io/repository/github/kiwix/kiwix-apple-custom)
+[![CI Build Status](https://github.com/kiwix/kiwix-apple-custom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kiwix/apple/actions/workflows/ci.yml?query=branch%3Amain)
+[![CD Build Status](https://github.com/kiwix/kiwix-apple-custom/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/kiwix/kiwix-apple-custom/actions/workflows/cd?query=branch%3Amain)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Custom app folder
