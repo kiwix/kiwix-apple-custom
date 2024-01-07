@@ -1,15 +1,10 @@
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -21,6 +16,7 @@ jobs:
         with:
           repository: kiwix/apple
           path: apple
+          ref: feature/fastlane
     
       - name: Check-out kiwix-custom-apple
         uses: actions/checkout@v4
@@ -40,3 +36,16 @@ jobs:
             cp custom/generate_project.zsh .
             chmod +x generate_project.zsh
             zsh ./generate_project.zsh
+
+      - name: Select Xcode
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      
+      - name: Build apps with fastlane
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APPLE_STORE_AUTH_KEY }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_SCHEME: "dwds"
+        run:
+          bundle exec fastlane ios beta && bundle exec fastlane mac beta
