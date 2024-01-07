@@ -41,6 +41,7 @@ jobs:
         run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       
       - name: Build apps with fastlane
+        env:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APPLE_STORE_AUTH_KEY }}
