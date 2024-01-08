@@ -158,6 +158,9 @@ class InfoParser:
         assert (year > 2000)
         assert (month > 0)
         assert (month <= 12)
+        # TODO: remove me
+        # downgrade the version by 1000 for testing the release
+        year -= 1000
         return ".".join([str(year), str(month)])
 
     def _excluded_languages(self):

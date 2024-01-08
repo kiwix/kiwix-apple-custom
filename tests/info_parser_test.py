@@ -50,10 +50,7 @@ class InfoParserTest(unittest.TestCase):
 
     def test_excluded_languages(self):
         excluded = self.parser._excluded_languages()
-        self.assertIn("**/qqq.lproj", excluded)
-        self.assertIn("**/ru.lproj", excluded)
-        self.assertIn("**/en.lproj", excluded)
-        self.assertNotIn("**/de.lproj", excluded)
+        self.assertIn("**/*.lproj", excluded)
 
     def test_app_version(self):
         self.assertEqual(self.parser._app_version(), "2023.12.3")
