@@ -49,4 +49,4 @@ jobs:
           MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APP_SCHEME: "dwds"
         run:
-          cd apple && bundle exec fastlane ios beta && bundle exec fastlane mac beta
+          cd apple && bundle exec fastlane ios beta #&& bundle exec fastlane mac beta
