@@ -1,6 +1,7 @@
 from glob import glob
 from info_parser import InfoParser
 import os
+import shutil
 import yaml
 
 
@@ -31,7 +32,7 @@ class CustomApps:
         for info in self.info_files:
             parser = InfoParser(info)
             branded_plist = parser.info_plist_path()
-            os.system(f"cp {custom_plist} {branded_plist}")
+            shutil.copyfile(custom_plist, branded_plist)
             for cmd in parser.append_to_plist_commands():
                 os.system(f"{cmd} {branded_plist}")
 

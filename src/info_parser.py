@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 import json
 import os
 import re
+import shutil
 from glob import glob
 
 JSON_KEY_ZIM_URL = "zim_url"
@@ -170,7 +171,7 @@ class InfoParser:
         else:
             # Copy the enforced lang to the custom folder
             for lang_file in glob(f'../**/{enforced}.lproj', recursive=True):
-                os.system(f"cp -r {lang_file} ../custom/{self.brand_name}/")
+                shutil.copytree(lang_file, f"../custom/{self.brand_name}/", dirs_exist_ok=True)
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]
 
