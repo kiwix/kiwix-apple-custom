@@ -14,7 +14,7 @@ class CustomApps:
     @staticmethod
     def append_to(custom_plist="Custom.plist"):
         for cmd in InfoParser.plist_commands():
-            os.system("{} {}".format(cmd, custom_plist))
+            os.system(f"{cmd} {custom_plist}")
 
     def create_custom_project_file(self, path="custom_project.yml"):
         dict = {"include": ["project.yml"]}
@@ -31,10 +31,9 @@ class CustomApps:
         for info in self.info_files:
             parser = InfoParser(info)
             branded_plist = parser.info_plist_path()
-            os.system("cp {} {}".format(
-                custom_plist, branded_plist))
+            os.system(f"cp {custom_plist} {branded_plist}")
             for cmd in parser.append_to_plist_commands():
-                os.system("{} {}".format(cmd, branded_plist))
+                os.system(f"{cmd} {branded_plist}")
 
     def create_xcconfigs(self):
         for info in self.info_files:
@@ -58,4 +57,4 @@ class CustomApps:
             url = parser.zimurl()
             file_path = parser.zim_file_path()
             auth = parser.download_auth()
-            yield "curl -L {} -u {} -o {}".format(url, auth, file_path)
+            yield f"curl -L {url} -u {auth} -o {file_path}"

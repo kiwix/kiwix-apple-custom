@@ -34,11 +34,11 @@ class InfoParserTest(unittest.TestCase):
     def test_version_from_filename(self):
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-11-20")
-        self.assertEqual(version, "2023.11")
+        self.assertEqual(version, "1023.11")
 
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-09-20")
-        self.assertEqual(version, "2023.9")
+        self.assertEqual(version, "1023.9")
 
     def test_app_name(self):
         app_name = self.parser._app_name()
@@ -53,7 +53,7 @@ class InfoParserTest(unittest.TestCase):
         self.assertIn("**/*.lproj", excluded)
 
     def test_app_version(self):
-        self.assertEqual(self.parser._app_version(), "2023.12.3")
+        self.assertEqual(self.parser._app_version(), "1023.12.3")
 
     def test_plist_commands(self):
         InfoParser.plist_commands()

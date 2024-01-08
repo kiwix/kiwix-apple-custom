@@ -42,18 +42,18 @@ class InfoParser:
         return self._format(xcconfig_dict)
 
     def xcconfig_path(self):
-        return "{}/{}.xcconfig".format(self.brand_name, self.brand_name)
+        return f"{self.brand_name}/{self.brand_name}.xcconfig"
 
     def info_plist_path(self):
-        return "{}/{}.plist".format(self.brand_name, self.brand_name)
+        return f"{self.brand_name}/{self.brand_name}.plist"
 
     def as_project_yml(self):
         dict = {
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
                 "MARKETING_VERSION": self._app_version(),
-                "PRODUCT_BUNDLE_IDENTIFIER": "org.kiwix.custom.{}".format(self.brand_name),
-                "INFOPLIST_FILE": "custom/{}".format(self.info_plist_path()),
+                "PRODUCT_BUNDLE_IDENTIFIER": f"org.kiwix.custom.{self.brand_name}",
+                "INFOPLIST_FILE": f"custom/{self.info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
                 "DEVELOPMENT_LANGUAGE": self._dev_language() 
@@ -70,7 +70,7 @@ class InfoParser:
                 "Release": self._xcconfig_full_path()
             },
             "sources": [
-                {"path": "custom/{}".format(self.brand_name)},
+                {"path": f"custom/{self.brand_name}"},
                 {"path": "custom/SplashScreen.storyboard",
                  "destinationFilters": ["iOS"]
                  },
@@ -89,7 +89,7 @@ class InfoParser:
 
     def zim_file_path(self):
         url = self.zimurl()
-        return "{}/{}".format(self.brand_name, os.path.basename(url))
+        return f"{self.brand_name}/{os.path.basename(url)}"
 
     def download_auth(self):
         auth_key = self.data[JSON_KEY_AUTH]
@@ -117,14 +117,15 @@ class InfoParser:
     # private
     @staticmethod
     def _add_var_to_plist_cmd(value, type):
-        return InfoParser._add_to_plist_cmd(value, "\$({})".format(value), type)
+        return InfoParser._add_to_plist_cmd(value, f"\$({value})", type)
 
     @staticmethod
     def _add_to_plist_cmd(key, value, type):
-        return "/usr/libexec/PlistBuddy -c \"Add :{} {} {}\"".format(key, type, value)
+        return f"/usr/libexec/PlistBuddy -c \"Add :{key} {type} {value}\""
     
     def _app_version(self):
-        return "{}.{}".format(self._app_version_from(self.zim_file_name), self.data["build_version"])
+        build_version = self.data["build_version"]
+        return f"{self._app_version_from(self.zim_file_name)}.{build_version}"
 
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
@@ -149,7 +150,7 @@ class InfoParser:
         return os.path.splitext(os.path.basename(urlparse(url).path))[0]
 
     def _xcconfig_full_path(self):
-        return "custom/{}".format(self.xcconfig_path())
+        return f"custom/{self.xcconfig_path()}"
 
     def _app_version_from(self, file_name):
         m = re.search('\d{4}-\d{1,2}', file_name)
@@ -158,7 +159,6 @@ class InfoParser:
         assert (year > 2000)
         assert (month > 0)
         assert (month <= 12)
-        # TODO: remove me
         # downgrade the version by 1000 for testing the release
         year -= 1000
         return ".".join([str(year), str(month)])
@@ -169,9 +169,8 @@ class InfoParser:
             return ["**/qqq.lproj"]
         else:
             # Copy the enforced lang to the custom folder
-            for lang_file in glob('../**/{}.lproj'.format(enforced), recursive=True):
-                os.system(
-                    "cp -r {} ../custom/{}/".format(lang_file, self.brand_name))
+            for lang_file in glob(f'../**/{enforced}.lproj', recursive=True):
+                os.system(f"cp -r {lang_file} ../custom/{self.brand_name}/")
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]
 
@@ -179,5 +178,5 @@ class InfoParser:
         list = []
         for key in dictionary:
             value = dictionary[key]
-            list.append("{} = {}".format(key, value))
+            list.append(f"{key} = {value}")
         return "\n".join(list)
