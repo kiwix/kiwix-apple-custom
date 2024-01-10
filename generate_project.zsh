@@ -10,7 +10,7 @@ cp ../Support/Info.plist Custom.plist
 # download all the zim files, 
 # generate all the branded config files, 
 # generate the custom project file containing all brands as targets
-python3 "src/generate_and_download.py"
+python "src/generate_and_download.py"
 
 # move the custom project file to the main folder
 mv custom_project.yml ../
