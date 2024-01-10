@@ -18,13 +18,17 @@ class InfoParserTest(unittest.TestCase):
         print(yaml.dump(project))
         
     def test_info_plist_path(self):
-        custom_info = self.parser.info_plist_path()
+        custom_info = self.parser._info_plist_path()
         self.assertEqual(custom_info, "tests/tests.plist")
 
     def test_file_name_from_url(self):
         url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11-20.zim"
         file_name = self.parser._filename_from(url)
         self.assertEqual(file_name, "dwds_de_dictionary_nopic_2023-11-20")
+        
+        url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11.zim"
+        file_name = self.parser._filename_from(url)
+        self.assertEqual(file_name, "dwds_de_dictionary_nopic_2023-11")
 
     def test_brand_name_from_file_path(self):
         filepath = "/User/some/dev/path/project/dwds/info.json"
@@ -39,6 +43,14 @@ class InfoParserTest(unittest.TestCase):
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-09-20")
         self.assertEqual(version, "1023.9")
+        
+        version = self.parser._app_version_from(
+            "dwds_de_dictionary_nopic_2023-01")
+        self.assertEqual(version, "1023.1")
+        
+        version = self.parser._app_version_from(
+            "dwds_de_dictionary_nopic_2023-12")
+        self.assertEqual(version, "1023.12")
 
     def test_app_name(self):
         app_name = self.parser._app_name()
@@ -55,8 +67,8 @@ class InfoParserTest(unittest.TestCase):
     def test_app_version(self):
         self.assertEqual(self.parser._app_version(), "1023.12.3")
 
-    def test_plist_commands(self):
-        InfoParser.plist_commands()
+    def test_as_plist(self):
+        self.parser.create_plist(based_on_plist_file="./tests/Support/Info.plist")
 
     def test_zimurl(self):
         self.assertEqual(self.parser.zimurl(

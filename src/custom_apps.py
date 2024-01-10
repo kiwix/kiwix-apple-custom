@@ -2,7 +2,6 @@ from glob import glob
 from info_parser import InfoParser
 import os
 import subprocess
-import shutil
 import yaml
 
 
@@ -12,11 +11,6 @@ class CustomApps:
         self.info_files = []
         for f in glob('./**/info.json', recursive=True):
             self.info_files.append(f)
-
-    @staticmethod
-    def append_values_to_custom_plist(custom_plist="Custom.plist"):
-        for cmd in InfoParser.plist_commands():
-            subprocess.call(cmd + [custom_plist])
 
     def create_custom_project_file(self, path="custom_project.yml"):
         dict = {"include": ["project.yml"]}
@@ -29,13 +23,10 @@ class CustomApps:
         with open(path, "w") as file:
             yaml.dump(dict, file)
 
-    def copy_plist(self, custom_plist):
+    def create_plists(self, custom_plist):
         for info in self.info_files:
             parser = InfoParser(info)
-            branded_plist = parser.info_plist_path()
-            shutil.copyfile(custom_plist, branded_plist)
-            for cmd in parser.append_to_plist_commands():
-                subprocess.call(cmd + [branded_plist])
+            parser.create_plist(based_on_plist_file=custom_plist)
 
     def create_xcconfigs(self):
         for info in self.info_files:

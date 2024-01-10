@@ -23,47 +23,19 @@ This needs to be downloaded from the url given in the `info.json`, and placed un
 ### A .plist file
 The plist file is a list of settings, that is used by xcode for the given target to be built. It is in a required xml format.
 
-It is created under the folder with the same name, eg.: `dwds/dwds.plist`
-
-It should contains the following common variables:
+It is created under the folder with the same name, eg.: `dwds/dwds.plist`,
+with the generated key values such as:
 ```
-APP_STORE_ID = ${APP_STORE_ID}
-CUSTOM_ABOUT_TEXT = ${CUSTOM_ABOUT_TEXT}
-CUSTOM_ABOUT_WEBSITE = ${CUSTOM_ABOUT_WEBSITE}
-CUSTOM_ZIM_FILE = ${CUSTOM_ZIM_FILE}
-SETTINGS_DEFAULT_EXTERNAL_LINK_TO = ${SETTINGS_DEFAULT_EXTERNAL_LINK_TO}
-```
-
-as a matter of fact these key/values are going to be the same for each brand. The final value for these are defined in the relevant .xcconfig files.
-
-The plist file should also contain the following variables that have their value inlined (with example values here):
-```
+APP_STORE_ID = "id6473090365"
+CUSTOM_ABOUT_TEXT = "This will be displayed in the about section..."
 CUSTOM_ABOUT_WEBSITE = "https://www.dwds.de"
-SETTINGS_SHOW_EXTERNAL_LINK_OPTION = false
-SETTINGS_SHOW_SEARCH_SNIPPET = false
+CUSTOM_ZIM_FILE = "dwds_de_dictionary_nopic_2023-12"
+SETTINGS_DEFAULT_EXTERNAL_LINK_TO = "alwaysLoad"
+SETTINGS_SHOW_SEARCH_SNIPPET = NO
+SETTINGS_SHOW_EXTERNAL_LINK_OPTION = NO
 ```
-
-Since the plist files are pretty much the same,
-and we want to reflect any changes made in the main (kiwix/apple) repo as well, creating them is done in the following steps:
-
-1) we make a copy of the `Support/Info.plist` file contained in the main repo (kiwix/apple) -> `Custom.plist`
-2) we add all the common variables to it. This is done by using the macOS built in commandline tool named `usr/libexec/PlistBuddy`. Note that  the plist file expects not only the keys and values, but the type of the variable as well (which we do not have in our custom `info.json` file). Currently we use string and boolean types.
-3) we make a copy of this `Custom.plist` into the custom folder eg: -> `dwds/dwds.plist`
-4) we add the custom values for this brand, using the same tool `PlistBuddy` mentioned above
 
 This way we end up with a plist file dedicated to a specific brand containing all the variables and values it needs.
-
-### An xcconfig file
-Under the custom app folder we create a branded 
-xcconfig file, eg: `dwds/dwds.xcconfig`, it is containing brand specific (build time) values, it should have the following (with example values):
-```
-CUSTOM_ABOUT_TEXT = Für Schreibende, Lernende, Lehrende und Sprachinteressierte:...
-APP_STORE_ID = id6473090365
-SETTINGS_DEFAULT_EXTERNAL_LINK_TO = alwaysLoad
-SETTINGS_SHOW_EXTERNAL_LINK_OPTION = False
-SETTINGS_SHOW_SEARCH_SNIPPET = False
-CUSTOM_ZIM_FILE = dwds_de_dictionary_nopic_2023-12-15
-```
 
 ## Enforced language?
 If we use enforcing a language for a brand, what that really means is: we cannot use any of the localization folders contained in the main (kiwix/apple) repo, instead we need to make a copy of a single language folder, eg: `de.lproj` and place it into the custom folder eg: `/custom/dwds/de.lproj` and include only that in the project. 
@@ -82,9 +54,6 @@ targets:
   dwds:
     templates:
     - ApplicationTemplate
-    configFiles:
-      Debug: custom/dwds/dwds.xcconfig
-      Release: custom/dwds/dwds.xcconfig
     settings:
       base:
         DEVELOPMENT_LANGUAGE: de
@@ -109,4 +78,3 @@ Once this is ready, we can call `xcodegen` on it:
 
 ## A splash screen
 The splash screen file is going to be the same for each custom app (it is using a branded logo image from the branded xcassets). As you can see from the above example, this file's final location is going to be: `/apple/custom/SplashScreen.storyboard`.
-

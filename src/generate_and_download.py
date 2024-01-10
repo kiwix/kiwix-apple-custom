@@ -6,14 +6,11 @@ if __name__ == "__main__":
     custom_plist = "Custom.plist"
     custom_apps = CustomApps()
     
-    # first edit the plist file, by adding the common vars for all custom apps 
-    custom_apps.append_values_to_custom_plist(custom_plist)
-    
-    # then copy it to the brand folders
-    custom_apps.copy_plist(custom_plist)
-    
     # create the xcconfig files
     custom_apps.create_xcconfigs()
+    
+    # create the plist files
+    custom_apps.create_plists(custom_plist=custom_plist)
     
     # download the zim files
     custom_apps.download_zim_files()

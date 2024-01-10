@@ -1,7 +1,5 @@
 import unittest
 from src.custom_apps import CustomApps
-import os
-import shutil
 
 class CustomAppsTest(unittest.TestCase):
     
@@ -12,10 +10,7 @@ class CustomAppsTest(unittest.TestCase):
         self.custom.create_xcconfigs()
         
     def test_custom_plist(self):
-        shutil.copyfile('./tests/Support/Info.plist', 'Custom.plist')
-        CustomApps.append_to("Custom.plist")
-        self.custom.copy_plist("Custom.plist")
-        os.remove('Custom.plist')
+        self.custom.create_plists(custom_plist="./tests/Support/Info.plist")
         
     def test_custom_project_creation(self):
         self.custom.create_custom_project_file(path="custom_project_test.yml")
