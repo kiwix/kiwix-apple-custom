@@ -10,18 +10,15 @@ JSON_KEY_ZIM_URL = "zim_url"
 JSON_KEY_AUTH = "zim_auth"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
-XCCONF_KEY_ZIM_FILE = "CUSTOM_ZIM_FILE"
+CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
 JSON_TO_PLIST_MAPPING = {
+    "app_store_id": "APP_STORE_ID",
     "about_app_url": "CUSTOM_ABOUT_WEBSITE",
     "about_text": "CUSTOM_ABOUT_TEXT",
     "settings_default_external_link_to": "SETTINGS_DEFAULT_EXTERNAL_LINK_TO",
     "settings_show_search_snippet": "SETTINGS_SHOW_SEARCH_SNIPPET",
     "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
 }
-JSON_TO_XCCONFIG_MAPPING = {
-    "app_store_id": "APP_STORE_ID"
-}
-
 
 class InfoParser:
 
@@ -33,26 +30,20 @@ class InfoParser:
             self.zim_file_name = self._filename_from(
                 self.data[JSON_KEY_ZIM_URL])
 
-    def as_xcconfig(self):
-        xcconfig_dict = {}
-        data = self.data
-        for json_key in data:
-            if json_key in JSON_TO_XCCONFIG_MAPPING:
-                xcconfig_dict[JSON_TO_XCCONFIG_MAPPING[json_key]] = data[json_key]
-        return self._format_as_xcconfig(xcconfig_dict)
-
     def create_plist(self, based_on_plist_file):
         with open(based_on_plist_file, "rb") as file:
             plist = plistlib.load(file)
             for keyValues in self._plist_key_values():
                 for key in keyValues:
                     plist[key] = keyValues[key]
-            plist["CUSTOM_ZIM_FILE"] = self.zim_file_name
-            with open(self._info_plist_path(), "wb") as outFile:
-                plistlib.dump(plist, outFile)
-
-    def xcconfig_path(self):
-        return f"{self.brand_name}/{self.brand_name}.xcconfig"
+            plist[CUSTOM_ZIM_FILE_KEY] = self.zim_file_name
+            out_path = self._info_plist_path()
+            # create dir, if doesn't exists yet
+            dirname = os.path.dirname(out_path)
+            if not os.path.exists(dirname):
+                os.makedirs(dirname, exist_ok=True)
+            with open(out_path, "wb") as out_file:
+                plistlib.dump(plist, out_file)
 
     def as_project_yml(self):
         dict = {
@@ -71,10 +62,6 @@ class InfoParser:
                 # If DEVELOPMENT_LANGUAGE is not added, enforcing a single language is not effective,
                 # therefore it's better to set it to the enforced language value if there's such.
             }
-            },
-            "configFiles": {
-                "Debug": self._xcconfig_full_path(),
-                "Release": self._xcconfig_full_path()
             },
             "sources": [
                 {"path": f"custom/{self.brand_name}"},
@@ -138,9 +125,6 @@ class InfoParser:
     def _filename_from(self, url):
         return os.path.splitext(os.path.basename(urlparse(url).path))[0]
 
-    def _xcconfig_full_path(self):
-        return f"custom/{self.xcconfig_path()}"
-
     def _app_version_from(self, file_name):
         m = re.search('\d{4}-\d{1,2}', file_name)
         yearMonth = m.group(0)
@@ -163,10 +147,3 @@ class InfoParser:
                     lang_file, f"../custom/{self.brand_name}/", dirs_exist_ok=True)
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]
-
-    def _format_as_xcconfig(self, dictionary):
-        list = []
-        for key in dictionary:
-            value = dictionary[key]
-            list.append(f"{key} = {value}")
-        return "\n".join(list)

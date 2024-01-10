@@ -8,10 +8,6 @@ class InfoParserTest(unittest.TestCase):
     def setUp(self):
         self.parser = InfoParser("tests/test.json")
 
-    def test_json_to_xcconfig(self):
-        xcconfig = self.parser.as_xcconfig()
-        print(xcconfig)
-
     def test_json_to_project_yml(self):
         project = self.parser.as_project_yml()
         print("custom_project.yml targets:")

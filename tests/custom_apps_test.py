@@ -6,9 +6,6 @@ class CustomAppsTest(unittest.TestCase):
     def setUp(self):
         self.custom = CustomApps()
         
-    def test_create_xcconfigs(self):
-        self.custom.create_xcconfigs()
-        
     def test_custom_plist(self):
         self.custom.create_plists(custom_plist="./tests/Support/Info.plist")
         

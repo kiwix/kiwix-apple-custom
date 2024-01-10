@@ -1,6 +1,5 @@
 from glob import glob
 from info_parser import InfoParser
-import os
 import subprocess
 import yaml
 
@@ -27,17 +26,6 @@ class CustomApps:
         for info in self.info_files:
             parser = InfoParser(info)
             parser.create_plist(based_on_plist_file=custom_plist)
-
-    def create_xcconfigs(self):
-        for info in self.info_files:
-            parser = InfoParser(info)
-            path = "./" + parser.xcconfig_path()
-            # create dir, if doesn't exists yet
-            dirname = os.path.dirname(path)
-            if not os.path.exists(dirname):
-                os.makedirs(dirname, exist_ok=True)
-            with open(path, 'w') as file:
-                file.write(parser.as_xcconfig())
 
     def download_zim_files(self):
         for cmd in self._curl_download_commands():

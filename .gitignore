@@ -2,5 +2,4 @@
 .vscode
 **/.DS_Store
 **/*.plist
-**/*.xcconfig
 custom_project_test.yml
