@@ -6,8 +6,8 @@ if __name__ == "__main__":
     custom_plist = "Custom.plist"
     custom_apps = CustomApps()
     
-    # first edit the plist file
-    custom_apps.append_to(custom_plist)
+    # first edit the plist file, by adding the common vars for all custom apps 
+    custom_apps.append_values_to_custom_plist(custom_plist)
     
     # then copy it to the brand folders
     custom_apps.copy_plist(custom_plist)

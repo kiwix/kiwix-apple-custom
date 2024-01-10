@@ -13,7 +13,7 @@ class CustomApps:
             self.info_files.append(f)
 
     @staticmethod
-    def append_to(custom_plist="Custom.plist"):
+    def append_values_to_custom_plist(custom_plist="Custom.plist"):
         for cmd in InfoParser.plist_commands():
             os.system(f"{cmd} {custom_plist}")
 
