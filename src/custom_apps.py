@@ -12,7 +12,7 @@ class CustomApps:
             self.info_files.append(f)
 
     def create_custom_project_file(self, path="custom_project.yml"):
-        """Create the project file based of the main repo project.yml
+        """Create the project file based on the main repo project.yml
         It will contain the targets we need for each custom app, and their build settings,
         pointing to their individual info.plist files
 
