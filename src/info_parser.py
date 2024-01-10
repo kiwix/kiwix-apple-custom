@@ -122,7 +122,7 @@ class InfoParser:
 
     @staticmethod
     def _add_to_plist_cmd(key, value, type):
-        return f"/usr/libexec/PlistBuddy -c \"Add :{key} {type} {value}\""
+        return ["/usr/libexec/PlistBuddy", "-c", f"\"Add :{key} {type} {value}\""]
     
     def _app_version(self):
         build_version = self.data["build_version"]

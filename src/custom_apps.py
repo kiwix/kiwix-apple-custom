@@ -1,6 +1,7 @@
 from glob import glob
 from info_parser import InfoParser
 import os
+import subprocess
 import shutil
 import yaml
 
@@ -15,7 +16,7 @@ class CustomApps:
     @staticmethod
     def append_values_to_custom_plist(custom_plist="Custom.plist"):
         for cmd in InfoParser.plist_commands():
-            os.system(f"{cmd} {custom_plist}")
+            subprocess.call(cmd + [custom_plist])
 
     def create_custom_project_file(self, path="custom_project.yml"):
         dict = {"include": ["project.yml"]}
@@ -34,7 +35,7 @@ class CustomApps:
             branded_plist = parser.info_plist_path()
             shutil.copyfile(custom_plist, branded_plist)
             for cmd in parser.append_to_plist_commands():
-                os.system(f"{cmd} {branded_plist}")
+                subprocess.call(cmd + [branded_plist])
 
     def create_xcconfigs(self):
         for info in self.info_files:
@@ -49,7 +50,7 @@ class CustomApps:
 
     def download_zim_files(self):
         for cmd in self._curl_download_commands():
-            os.system(cmd)
+            subprocess.call(cmd)
 
     # private
     def _curl_download_commands(self):
@@ -58,4 +59,4 @@ class CustomApps:
             url = parser.zimurl()
             file_path = parser.zim_file_path()
             auth = parser.download_auth()
-            yield f"curl -L {url} -u {auth} -o {file_path}"
+            yield ["curl", "-L", url, "-u", auth, "-o", file_path]
