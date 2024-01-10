@@ -1,4 +1,7 @@
-"""Generate the custom app plist files, and a custom_project.yml. It is searching for info.json files in subfolders, where the subfolder name will become the "brand name" of the custom app."""
+"""Generate the custom app plist files, and a custom_project.yml. 
+It is searching for info.json files in subfolders, 
+where the subfolder name will become the "brand name" of the custom app.
+"""
 
 from custom_apps import CustomApps
 
