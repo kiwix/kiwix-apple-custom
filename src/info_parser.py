@@ -126,9 +126,10 @@ class InfoParser:
         return os.path.splitext(os.path.basename(urlparse(url).path))[0]
 
     def _app_version_from(self, file_name):
-        m = re.search('\d{4}-\d{1,2}', file_name)
-        yearMonth = m.group(0)
-        (year, month) = map(lambda x: int(x), yearMonth.split("-"))
+        p = re.compile('(?P<year>\d{4})-(?P<month>\d{1,2})')
+        m = p.search(file_name)
+        year = int(m.group('year'))
+        month = int(m.group('month'))
         assert (year > 2000)
         assert (month > 0)
         assert (month <= 12)
