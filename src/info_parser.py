@@ -1,10 +1,10 @@
 from urllib.parse import urlparse
 import json
+from pathlib import Path
 import os
 import re
 import shutil
 import plistlib
-from glob import glob
 
 JSON_KEY_ZIM_URL = "zim_url"
 JSON_KEY_AUTH = "zim_auth"
@@ -23,15 +23,15 @@ JSON_TO_PLIST_MAPPING = {
 class InfoParser:
 
     def __init__(self, json_path):
-        with open(json_path) as file:
-            self.brand_name = self._brandname_from(json_path)
-            self.data = json.loads(file.read())
-            assert (JSON_KEY_ZIM_URL in self.data)
-            self.zim_file_name = self._filename_from(
-                self.data[JSON_KEY_ZIM_URL])
+        self.brand_name = self._brandname_from(json_path)
+        content = json_path.read_text()
+        self.data = json.loads(content)
+        assert (JSON_KEY_ZIM_URL in self.data)
+        self.zim_file_name = self._filename_from(
+            self.data[JSON_KEY_ZIM_URL])
 
     def create_plist(self, based_on_plist_file):
-        with open(based_on_plist_file, "rb") as file:
+        with based_on_plist_file.open(mode="rb") as file:
             plist = plistlib.load(file)
             for keyValues in self._plist_key_values():
                 for key in keyValues:
@@ -39,10 +39,9 @@ class InfoParser:
             plist[CUSTOM_ZIM_FILE_KEY] = self.zim_file_name
             out_path = self._info_plist_path()
             # create dir, if doesn't exists yet
-            dirname = os.path.dirname(out_path)
-            if not os.path.exists(dirname):
-                os.makedirs(dirname, exist_ok=True)
-            with open(out_path, "wb") as out_file:
+            if not out_path.parent.exists():
+                out_path.parent.mkdir()
+            with out_path.open(mode="wb") as out_file:
                 plistlib.dump(plist, out_file)
 
     def as_project_yml(self):
@@ -82,15 +81,15 @@ class InfoParser:
         return self.data[JSON_KEY_ZIM_URL]
 
     def zim_file_path(self):
-        url = self.zimurl()
-        return f"{self.brand_name}/{os.path.basename(url)}"
+        url = Path(self.zimurl())
+        return Path()/self.brand_name/url.name
 
     def download_auth(self):
         auth_key = self.data[JSON_KEY_AUTH]
         return os.getenv(auth_key)
 
     def _info_plist_path(self):
-        return f"{self.brand_name}/{self.brand_name}.plist"
+        return Path()/self.brand_name/f"{self.brand_name}.plist"
 
     def _plist_key_values(self):
         for json_key in JSON_TO_PLIST_MAPPING:
@@ -120,10 +119,10 @@ class InfoParser:
             return None
 
     def _brandname_from(self, filepath):
-        return os.path.basename(os.path.dirname(filepath)).lower()
+        return filepath.parent.name.lower()
 
     def _filename_from(self, url):
-        return os.path.splitext(os.path.basename(urlparse(url).path))[0]
+        return Path(urlparse(url).path).stem
 
     def _app_version_from(self, file_name):
         p = re.compile('(?P<year>\d{4})-(?P<month>\d{1,2})')
@@ -143,8 +142,9 @@ class InfoParser:
             return ["**/qqq.lproj"]
         else:
             # Copy the enforced lang to the custom folder
-            for lang_file in glob(f'../**/{enforced}.lproj', recursive=True):
+            for lang_file in Path().parent.rglob(f'{enforced}.lproj'):
+                lang_file.copy
                 shutil.copytree(
-                    lang_file, f"../custom/{self.brand_name}/", dirs_exist_ok=True)
+                    lang_file, Path().parent/"custom"/self.brand_name, dirs_exist_ok=True)
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]

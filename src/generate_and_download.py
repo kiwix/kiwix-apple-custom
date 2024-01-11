@@ -4,12 +4,13 @@ where the subfolder name will become the "brand name" of the custom app.
 """
 
 from custom_apps import CustomApps
+from pathlib import Path
 
 if __name__ == "__main__":
     custom_apps = CustomApps()
     
     # create the plist files
-    custom_apps.create_plists(custom_plist="Custom.plist")
+    custom_apps.create_plists(custom_plist=Path()/"Custom.plist")
     
     # download the zim files
     custom_apps.download_zim_files()

@@ -1,12 +1,13 @@
 import unittest
 from src.info_parser import InfoParser
+from pathlib import Path
 import yaml
 import os
 
 class InfoParserTest(unittest.TestCase):
 
     def setUp(self):
-        self.parser = InfoParser("tests/test.json")
+        self.parser = InfoParser(Path()/"tests"/"test.json")
 
     def test_json_to_project_yml(self):
         project = self.parser.as_project_yml()
@@ -15,7 +16,7 @@ class InfoParserTest(unittest.TestCase):
         
     def test_info_plist_path(self):
         custom_info = self.parser._info_plist_path()
-        self.assertEqual(custom_info, "tests/tests.plist")
+        self.assertEqual(custom_info, Path()/"tests"/"tests.plist")
 
     def test_file_name_from_url(self):
         url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11-20.zim"
@@ -27,7 +28,7 @@ class InfoParserTest(unittest.TestCase):
         self.assertEqual(file_name, "dwds_de_dictionary_nopic_2023-11")
 
     def test_brand_name_from_file_path(self):
-        filepath = "/User/some/dev/path/project/dwds/info.json"
+        filepath = Path().home()/"some"/"dev"/"path"/"project"/"dwds"/"info.json"
         brand_name = self.parser._brandname_from(filepath)
         self.assertEqual(brand_name, "dwds")
 
@@ -64,7 +65,7 @@ class InfoParserTest(unittest.TestCase):
         self.assertEqual(self.parser._app_version(), "1023.12.3")
 
     def test_as_plist(self):
-        self.parser.create_plist(based_on_plist_file="./tests/Support/Info.plist")
+        self.parser.create_plist(based_on_plist_file=Path()/"tests"/"Support"/"Info.plist")
 
     def test_zimurl(self):
         self.assertEqual(self.parser.zimurl(
@@ -72,7 +73,7 @@ class InfoParserTest(unittest.TestCase):
         
     def test_zimfile_path(self):
         self.assertEqual(self.parser.zim_file_path(),
-                         "tests/dwds_de_dictionary_nopic_2023-12-15.zim")
+                         Path()/"tests"/"dwds_de_dictionary_nopic_2023-12-15.zim")
         
     def test_auth_value(self):
         self.assertEqual(self.parser.download_auth(), os.getenv("DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION"))

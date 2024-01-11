@@ -1,4 +1,4 @@
-from glob import glob
+from pathlib import Path
 from info_parser import InfoParser
 import subprocess
 import yaml
@@ -7,11 +7,9 @@ import yaml
 class CustomApps:
 
     def __init__(self):
-        self.info_files = []
-        for f in glob('./**/info.json', recursive=True):
-            self.info_files.append(f)
+        self.info_files = Path.cwd().rglob('info.json')
 
-    def create_custom_project_file(self, path="custom_project.yml"):
+    def create_custom_project_file(self, path=Path()/'custom_project.yml'):
         """Create the project file based on the main repo project.yml
         It will contain the targets we need for each custom app, and their build settings,
         pointing to their individual info.plist files
@@ -33,7 +31,7 @@ class CustomApps:
         """Generate the plist files for each brand
 
         Args:
-            custom_plist (string): the path to the original plist file we are basing this of,
+            custom_plist (Path): the path to the original plist file we are basing this of,
             it should be a copy from the Kiwix target
         """
         for info in self.info_files:
