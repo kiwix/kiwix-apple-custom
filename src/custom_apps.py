@@ -7,7 +7,7 @@ import yaml
 class CustomApps:
 
     def __init__(self):
-        self.info_files = Path.cwd().rglob('info.json')
+        self.info_files = list(Path().rglob('info.json'))
 
     def create_custom_project_file(self, path=Path()/'custom_project.yml'):
         """Create the project file based on the main repo project.yml
