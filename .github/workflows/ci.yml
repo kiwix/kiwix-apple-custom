@@ -60,7 +60,7 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APPLE_STORE_AUTH_KEY }}
+          APP_STORE_CONNECT_API_KEY_KEY: "${{ secrets.APPLE_STORE_AUTH_KEY }}"
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APP_SCHEME: "dwds"
