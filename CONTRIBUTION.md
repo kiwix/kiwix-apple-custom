@@ -9,11 +9,11 @@ Therefore each brand will end up with 2 apps (one for iOS and one for macOS).
 - custom brand folders, each with an info.json file, and xcassets
 - we have the kiwix/apple code (as a seperate repository). 
 
-    We do not add any swift code to custom apps. All swift code related to custom apps is already included in kiwix/apple repository, it is just "not used" in the Kiwix apps.
+    We do not add any swift code to custom apps. All swift code related to custom apps is already included in kiwix/apple repository, it is just "not used" by the Kiwix apps.
 
 The `kiwix/apple` repo is checked out into `/apple` folder, while the custom app repo (this one), is checked out under `/custom` folder.
 
-Since most of the code and files are already in the `/apple` folder, we copy the `/custom` folder under it, so it ends up in: `/apple/custom`. We do the rest of the building from that folder.
+Since most of the code and files are already in the `/apple` folder, we copy the `/custom` folder under it, so it ends up in: `/apple/custom`. We do the rest of the building from the `/apple` folder.
 
 ## What we need in order to build a custom app?
 
@@ -40,7 +40,7 @@ This way we end up with a plist file dedicated to a specific brand containing al
 ## Enforced language?
 If we use enforcing a language for a brand, what that really means is: we cannot use any of the localization folders contained in the main (kiwix/apple) repo, instead we need to make a copy of a single language folder, eg: `de.lproj` and place it into the custom folder eg: `/custom/dwds/de.lproj` and include only that in the project. 
 
-(Note: only including / excluding does not work as the references to those language folders in the final Xcode project file will mess up. So we need a copy of the folder, and only this way it works as expected.)
+(Note: only including / excluding does not work as the references to those language folders in the final Xcode project file will mess up. So we need a copy of the enforced lang folder in the custom apps folder, and only this way it works as expected.)
 
 An extra step is required here, we also need to set the DEVELOPMENT_LANGUAGE to this value (eg. "de").
 
