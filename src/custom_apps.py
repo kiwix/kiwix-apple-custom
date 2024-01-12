@@ -1,4 +1,3 @@
-from pathlib import Path
 from info_parser import InfoParser
 from brand import Brand
 import subprocess
