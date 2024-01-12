@@ -13,7 +13,8 @@ class CustomAppsTest(unittest.TestCase):
             custom_plist=Path()/"tests"/"Support"/"Info.plist")
 
     def test_custom_project_creation(self):
-        self.custom.create_custom_project_file(path=Path()/"custom_project_test.yml")
+        self.custom.create_custom_project_file(
+            path=Path()/"custom_project_test.yml")
 
     def x_test_downloads(self):
         self.custom.download_zim_files()

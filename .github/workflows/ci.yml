@@ -48,6 +48,7 @@ jobs:
         run: |
             # move the custom files under the same folder as the kiwix repo
             mv custom/ apple/
+            mv certificates/ apple/
             cd apple/custom
 
             # make a custom copy of the Info.plist file

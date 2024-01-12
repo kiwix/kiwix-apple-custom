@@ -1,21 +1,30 @@
 from pathlib import Path
 from info_parser import InfoParser
+from brand import Brand
 import subprocess
 import yaml
+import sys
 
+INFO_JSON = 'info.json'
 
 class CustomApps:
 
-    def __init__(self):
-        self.info_files = list(Path().rglob('info.json'))
+    def __init__(self, brands = ["all"]):
+        if brands == ["all"]:
+            self.info_files = Brand.all_info_files()
+        else:
+            self.info_files = []
+            for brand_name in brands:
+                brand = Brand(brand_name)
+                self.info_files.append(brand.info_file)
 
-    def create_custom_project_file(self, path=Path()/'custom_project.yml'):
+    def create_custom_project_file(self, path):
         """Create the project file based on the main repo project.yml
         It will contain the targets we need for each custom app, and their build settings,
         pointing to their individual info.plist files
 
         Args:
-            path (str, optional): the output file path where it will be saved. Defaults to "custom_project.yml".
+            path (Path): the output file path where the project yaml will be saved
         """
         dict = {"include": ["project.yml"]}
         targets = {}
@@ -44,7 +53,7 @@ class CustomApps:
         for cmd in self._curl_download_commands():
             subprocess.call(cmd)
 
-    # private
+    # private    
     def _curl_download_commands(self):
         """Yield all the curl commands we need to download each zim file from all info.json files
 

@@ -16,4 +16,4 @@ if __name__ == "__main__":
     custom_apps.download_zim_files()
     
     # finally create the project file, containing all brands as targets
-    custom_apps.create_custom_project_file()
+    custom_apps.create_custom_project_file(path=Path()/"custom_project.yml")

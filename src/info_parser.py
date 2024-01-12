@@ -20,10 +20,18 @@ JSON_TO_PLIST_MAPPING = {
     "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
 }
 
+
 class InfoParser:
 
-    def __init__(self, json_path):
+    def __init__(self, json_path, build_version=None):
+        """Parse a specific info.json file for a brand
+
+        Args:
+            json_path (Path): of the branded info.json file
+            build_number (int, optional): If defined it will be used instead of the info.json[build_version]. Defaults to None.
+        """
         self.brand_name = self._brandname_from(json_path)
+        self.build_version = build_version
         content = json_path.read_text()
         self.data = json.loads(content)
         assert (JSON_KEY_ZIM_URL in self.data)
@@ -99,7 +107,7 @@ class InfoParser:
                 yield {plistKey: value}
 
     def _app_version(self):
-        build_version = self.data["build_version"]
+        build_version = self.build_version or self.data["build_version"]
         return f"{self._app_version_from(self.zim_file_name)}.{build_version}"
 
     def _app_name(self):

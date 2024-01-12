@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 import os
 
+
 class InfoParserTest(unittest.TestCase):
 
     def setUp(self):
@@ -13,7 +14,7 @@ class InfoParserTest(unittest.TestCase):
         project = self.parser.as_project_yml()
         print("custom_project.yml targets:")
         print(yaml.dump(project))
-        
+
     def test_info_plist_path(self):
         custom_info = self.parser._info_plist_path()
         self.assertEqual(custom_info, Path()/"tests"/"tests.plist")
@@ -22,7 +23,7 @@ class InfoParserTest(unittest.TestCase):
         url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11-20.zim"
         file_name = self.parser._filename_from(url)
         self.assertEqual(file_name, "dwds_de_dictionary_nopic_2023-11-20")
-        
+
         url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11.zim"
         file_name = self.parser._filename_from(url)
         self.assertEqual(file_name, "dwds_de_dictionary_nopic_2023-11")
@@ -40,11 +41,11 @@ class InfoParserTest(unittest.TestCase):
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-09-20")
         self.assertEqual(version, "1023.9")
-        
+
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-01")
         self.assertEqual(version, "1023.1")
-        
+
         version = self.parser._app_version_from(
             "dwds_de_dictionary_nopic_2023-12")
         self.assertEqual(version, "1023.12")
@@ -64,16 +65,25 @@ class InfoParserTest(unittest.TestCase):
     def test_app_version(self):
         self.assertEqual(self.parser._app_version(), "1023.12.3")
 
+    def test_app_version_using_a_tag(self):
+        parser = InfoParser(Path()/"tests"/"test.json", build_version=15)
+        self.assertEqual(parser._app_version(), "1023.12.15")
+
+        parser = InfoParser(Path()/"tests"/"test.json", build_version=33)
+        self.assertEqual(parser._app_version(), "1023.12.33")
+
     def test_as_plist(self):
-        self.parser.create_plist(based_on_plist_file=Path()/"tests"/"Support"/"Info.plist")
+        self.parser.create_plist(
+            based_on_plist_file=Path()/"tests"/"Support"/"Info.plist")
 
     def test_zimurl(self):
         self.assertEqual(self.parser.zimurl(
         ), "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-12-15.zim")
-        
+
     def test_zimfile_path(self):
         self.assertEqual(self.parser.zim_file_path(),
                          Path()/"tests"/"dwds_de_dictionary_nopic_2023-12-15.zim")
-        
+
     def test_auth_value(self):
-        self.assertEqual(self.parser.download_auth(), os.getenv("DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION"))
+        self.assertEqual(self.parser.download_auth(), os.getenv(
+            "DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION"))
