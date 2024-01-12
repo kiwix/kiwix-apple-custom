@@ -12,7 +12,7 @@ def main():
         description="Builder of custom apps, based on the passed in (optional) brand name and (optional) build version")
     parser.add_argument(
         "brand_name",
-        nargs='?'
+        nargs='?',
         default='all',
         help="The brand name to be built, if not provided will fall back to all apps",
         type=str
@@ -20,7 +20,7 @@ def main():
 
     parser.add_argument(
         "build_version",
-        nargs='?'
+        nargs='?',
         default=None,
         help="The optional build version to use, if not provided will fall back to the build_version defined in the info.json value",
         type=int
