@@ -1,0 +1,5 @@
+**/__pycache__
+.vscode
+**/.DS_Store
+**/*.plist
+custom_project_test.yml
