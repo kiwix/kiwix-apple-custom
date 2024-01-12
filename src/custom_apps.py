@@ -3,13 +3,13 @@ from info_parser import InfoParser
 from brand import Brand
 import subprocess
 import yaml
-import sys
 
 INFO_JSON = 'info.json'
 
 class CustomApps:
 
-    def __init__(self, brands = ["all"]):
+    def __init__(self, brands=["all"], build_version=None):
+        self.build_version = build_version
         if brands == ["all"]:
             self.info_files = Brand.all_info_files()
         else:
@@ -29,7 +29,7 @@ class CustomApps:
         dict = {"include": ["project.yml"]}
         targets = {}
         for info in self.info_files:
-            parser = InfoParser(info)
+            parser = InfoParser(info, build_version=self.build_version)
             targets = targets | parser.as_project_yml()
 
         dict["targets"] = targets
@@ -44,7 +44,7 @@ class CustomApps:
             it should be a copy from the Kiwix target
         """
         for info in self.info_files:
-            parser = InfoParser(info)
+            parser = InfoParser(info, build_version=self.build_version)
             parser.create_plist(based_on_plist_file=custom_plist)
 
     def download_zim_files(self):
@@ -61,7 +61,7 @@ class CustomApps:
             array: commands that can be feeded into subprocess.call()
         """
         for info in self.info_files:
-            parser = InfoParser(info)
+            parser = InfoParser(info, build_version=self.build_version)
             url = parser.zimurl()
             file_path = parser.zim_file_path()
             auth = parser.download_auth()
