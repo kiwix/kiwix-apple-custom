@@ -46,9 +46,7 @@ class InfoParser:
                     plist[key] = keyValues[key]
             plist[CUSTOM_ZIM_FILE_KEY] = self.zim_file_name
             out_path = self._info_plist_path()
-            # create dir, if doesn't exists yet
-            if not out_path.parent.exists():
-                out_path.parent.mkdir()
+            out_path.parent.mkdir(parents=True, exist_ok=True)
             with out_path.open(mode="wb") as out_file:
                 plistlib.dump(plist, out_file)
 
