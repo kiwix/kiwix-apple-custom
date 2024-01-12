@@ -27,7 +27,12 @@ jobs:
         run: python -m pip install pyyaml
 
       - name: Install Kiwix dependencies
-        run: cd apple && brew bundle && bundle update && cd ..
+        run:
+          | 
+          cd apple
+          brew bundle 
+          bundle update
+          cd ..
 
       - name: Generate the custom projects
         env:
