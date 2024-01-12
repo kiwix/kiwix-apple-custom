@@ -73,12 +73,12 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_KEY: "${{ secrets.APPLE_STORE_AUTH_KEY }}"
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APPLE_STORE_AUTH_KEY }}
           MATCH_PASSWORD: ${{ secrets.APPLE_CERTIFICATES_MATCH_PASSWORD }}
           MATCH_KEYCHAIN_PASSWORD: ${{ secrets.APPLE_CERTIFICATES_MATCH_PASSWORD }}
           APP_SCHEME: "dwds"
         run:
           |
           cd apple 
-          bundle exec fastlane ios beta 
-          # bundle exec fastlane mac beta
+          bundle exec fastlane ios build 
+          # bundle exec fastlane mac build
