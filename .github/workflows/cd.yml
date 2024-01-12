@@ -26,4 +26,4 @@ jobs:
         run:
           |
           cd custom
-          python .github/workflows/tag_validator.py ${{ steps.vars.outputs.tag }}
+          python src/tag_validator.py ${{ steps.vars.outputs.tag }} | python src/generate_and_download.py
