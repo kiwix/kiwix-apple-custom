@@ -1,0 +1,29 @@
+name: Publish Custom App
+
+on:
+  release:
+    types: [published]
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: custom
+      
+      - name: Set tag variable as an output
+        id: vars
+        run: 
+          |
+          echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
+      - name: Validate tag
+        run:
+          |
+          cd custom
+          python .github/workflows/tag_validator.py ${{ steps.vars.outputs.tag }}
