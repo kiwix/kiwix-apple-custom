@@ -19,17 +19,17 @@ def main():
     )
 
     parser.add_argument(
-        "build_version",
+        "build_number",
         nargs='?',
         default=None,
-        help="The optional build version to use, if not provided will fall back to the build_version defined in the info.json value",
+        help="The optional build version to use, if not provided will fall back to the build_number defined in the info.json value",
         type=int
     )
     args = parser.parse_args()
     brand = args.brand_name
-    build_version = args.build_version
+    build_number = args.build_number
 
-    custom_apps = CustomApps(brands=[brand], build_version=build_version)
+    custom_apps = CustomApps(brands=[brand], build_number=build_number)
     # create the plist files
     custom_apps.create_plists(custom_plist=Path("Custom.plist"))
 
