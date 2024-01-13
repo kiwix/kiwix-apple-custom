@@ -21,7 +21,11 @@ jobs:
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT  
 
       - name: Validate tag
-        run: python custom/src/tag_validator.py ${{ steps.vars.outputs.tag }}
+        run: 
+          |
+          cd custom
+          python src/tag_validator.py ${{ steps.vars.outputs.tag }}
+          cd ..
 
       - name: Check-out kiwix/apple
         uses: actions/checkout@v4
