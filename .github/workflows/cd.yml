@@ -11,10 +11,28 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Check-out kiwix/apple
+        uses: actions/checkout@v4
+        with:
+          repository: kiwix/apple
+          path: apple
+          ref: main
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           path: custom
+
+      - name: Install Python dependencies for custom project generation
+        run: python -m pip install pyyaml
+      
+      - name: Install Kiwix dependencies
+        run:
+          | 
+          cd apple
+          brew bundle 
+          bundle update
+          cd ..
       
       - name: Set tag variable as an output
         id: vars
@@ -22,8 +40,24 @@ jobs:
           |
           echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Validate tag
+      - name: Validate tag, generate project
+        env:
+          DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
         run:
           |
-          cd custom
+          # move the custom files under the same folder as the kiwix repo
+          mv custom/ apple/
+          cd apple/custom
+
+          # make a custom copy of the Info.plist file
+          cp ../Support/Info.plist Custom.plist
+
           python src/tag_validator.py ${{ steps.vars.outputs.tag }} | python src/generate_and_download.py
+
+          # move the custom project file to the main folder
+          mv custom_project.yml ../
+          cd ..
+          ls -la
+
+          # run xcodegen on our custom project
+          xcodegen -s custom_project.yml
