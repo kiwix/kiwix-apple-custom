@@ -36,7 +36,7 @@ def _is_valid(tag):
             
         parser = InfoParser(json_path=brand.info_file, build_number=version.build_number)
         if parser.version != version:
-            _exit_with_error(f"Ivalid date in tag: {tag}, does not match year.month of ZIM file in {brand.info_file}, it should be: {parser.version.semantic}")
+            _exit_with_error(f"Invalid date in tag: {tag}, does not match year.month of ZIM file in {brand.info_file}, it should be: {parser.version.semantic}")
             
         print(f"{brand.name} {version.semantic_downgraded}")
         
