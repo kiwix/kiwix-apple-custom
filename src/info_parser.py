@@ -56,7 +56,8 @@ class InfoParser:
         dict = {
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
-                "MARKETING_VERSION": self.version.semantic,
+                # TODO: change to .semantic, once builds are OK
+                "MARKETING_VERSION": self.version.semantic_downgraded, 
                 "PRODUCT_BUNDLE_IDENTIFIER": f"org.kiwix.custom.{self.brand_name}",
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
