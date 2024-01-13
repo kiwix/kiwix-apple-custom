@@ -8,7 +8,7 @@ import os
 class InfoParserTest(unittest.TestCase):
 
     def setUp(self):
-        self.parser = InfoParser(Path()/"tests"/"test.json")
+        self.parser = InfoParser(Path("tests")/"test.json")
 
     def test_json_to_project_yml(self):
         project = self.parser.as_project_yml()
@@ -17,7 +17,7 @@ class InfoParserTest(unittest.TestCase):
 
     def test_info_plist_path(self):
         custom_info = self.parser._info_plist_path()
-        self.assertEqual(custom_info, Path()/"tests"/"tests.plist")
+        self.assertEqual(custom_info, Path("tests")/"tests.plist")
 
     def test_file_name_from_url(self):
         url = "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-11-20.zim"
@@ -33,23 +33,6 @@ class InfoParserTest(unittest.TestCase):
         brand_name = self.parser._brandname_from(filepath)
         self.assertEqual(brand_name, "dwds")
 
-    def test_version_from_filename(self):
-        version = self.parser._app_version_from(
-            "dwds_de_dictionary_nopic_2023-11-20")
-        self.assertEqual(version, "1023.11")
-
-        version = self.parser._app_version_from(
-            "dwds_de_dictionary_nopic_2023-09-20")
-        self.assertEqual(version, "1023.9")
-
-        version = self.parser._app_version_from(
-            "dwds_de_dictionary_nopic_2023-01")
-        self.assertEqual(version, "1023.1")
-
-        version = self.parser._app_version_from(
-            "dwds_de_dictionary_nopic_2023-12")
-        self.assertEqual(version, "1023.12")
-
     def test_app_name(self):
         app_name = self.parser._app_name()
         self.assertEqual(app_name, "DWDS")
@@ -62,15 +45,18 @@ class InfoParserTest(unittest.TestCase):
         excluded = self.parser._excluded_languages()
         self.assertIn("**/*.lproj", excluded)
 
-    def test_app_version(self):
-        self.assertEqual(self.parser._app_version(), "1023.12.3")
+    def test_app_version_with_default_json_build_number(self):
+        self.assertEqual(self.parser.version.semantic, "2023.12.3")
+        self.assertEqual(self.parser.version.semantic_downgraded, "1023.12.3")
 
-    def test_app_version_using_a_tag(self):
-        parser = InfoParser(Path()/"tests"/"test.json", build_version=15)
-        self.assertEqual(parser._app_version(), "1023.12.15")
+    def test_app_version_using_a_specific_build_number(self):
+        parser = InfoParser(Path("tests")/"test.json", build_number=15)
+        self.assertEqual(parser.version.semantic, "2023.12.15")
+        self.assertEqual(parser.version.semantic_downgraded, "1023.12.15")
 
-        parser = InfoParser(Path()/"tests"/"test.json", build_version=33)
-        self.assertEqual(parser._app_version(), "1023.12.33")
+        parser = InfoParser(Path("tests")/"test.json", build_number=33)
+        self.assertEqual(parser.version.semantic, "2023.12.33")
+        self.assertEqual(parser.version.semantic_downgraded, "1023.12.33")
 
     def test_as_plist(self):
         self.parser.create_plist(

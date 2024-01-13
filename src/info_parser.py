@@ -1,8 +1,8 @@
 from urllib.parse import urlparse
 import json
 from pathlib import Path
+from version import Version
 import os
-import re
 import shutil
 import plistlib
 
@@ -23,20 +23,22 @@ JSON_TO_PLIST_MAPPING = {
 
 class InfoParser:
 
-    def __init__(self, json_path, build_version=None):
+    def __init__(self, json_path, build_number=None):
         """Parse a specific info.json file for a brand
 
         Args:
             json_path (Path): of the branded info.json file
-            build_number (int, optional): If defined it will be used instead of the info.json[build_version]. Defaults to None.
+            build_number (int, optional): If defined it will be used instead of the info.json[build_number]. Defaults to None.
         """
         self.brand_name = self._brandname_from(json_path)
-        self.build_version = build_version
         content = json_path.read_text()
         self.data = json.loads(content)
         assert (JSON_KEY_ZIM_URL in self.data)
         self.zim_file_name = self._filename_from(
             self.data[JSON_KEY_ZIM_URL])
+        build_number = build_number or self.data["build_number"]
+        self.version = Version.from_file_name(file_name=self.zim_file_name,
+                                              build_number=build_number)
 
     def create_plist(self, based_on_plist_file):
         with based_on_plist_file.open(mode="rb") as file:
@@ -54,7 +56,7 @@ class InfoParser:
         dict = {
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
-                "MARKETING_VERSION": self._app_version(),
+                "MARKETING_VERSION": self.version.semantic,
                 "PRODUCT_BUNDLE_IDENTIFIER": f"org.kiwix.custom.{self.brand_name}",
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
@@ -104,10 +106,6 @@ class InfoParser:
                 value = self.data[json_key]
                 yield {plistKey: value}
 
-    def _app_version(self):
-        build_version = self.build_version or self.data["build_version"]
-        return f"{self._app_version_from(self.zim_file_name)}.{build_version}"
-
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
 
@@ -129,18 +127,6 @@ class InfoParser:
 
     def _filename_from(self, url):
         return Path(urlparse(url).path).stem
-
-    def _app_version_from(self, file_name):
-        p = re.compile('(?P<year>\d{4})-(?P<month>\d{1,2})')
-        m = p.search(file_name)
-        year = int(m.group('year'))
-        month = int(m.group('month'))
-        assert (year > 2000)
-        assert (month > 0)
-        assert (month <= 12)
-        # downgrade the version by 1000 for testing the release
-        year -= 1000
-        return ".".join([str(year), str(month)])
 
     def _excluded_languages(self):
         enforced = self._enforced_language()
