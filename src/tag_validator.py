@@ -38,7 +38,7 @@ def _is_valid(tag):
         if parser.version != version:
             _exit_with_error(f"Invalid date in tag: {tag}, does not match year.month of ZIM file in {brand.info_file}, it should be: {parser.version.semantic}")
             
-        print(f"{brand.name} {version.semantic_downgraded}")
+        print(f"{brand.name} {version.build_number}")
         
     else:
         _exit_with_error(f"Invalid tag: {tag}")
