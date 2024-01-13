@@ -2,11 +2,11 @@
 
 import argparse
 import re
-from pathlib import Path
 import sys
+from brand import Brand
 
 
-def is_valid(tag):
+def _is_valid(tag):
     # Regex verify the tag format
     pattern = re.compile(
         r'^(?P<brand_folder>\w+)_(?P<build_nr>\d+)(?:_(?P<extra_tag>\w+))?$')
@@ -14,21 +14,16 @@ def is_valid(tag):
 
     if match:
         groups = match.groupdict()
-        brand = groups.get('brand_folder')
+        brand_name = groups.get('brand_folder')
         build_nr = int(groups.get('build_nr'))
-        if Path(brand).is_dir():
-            print(f"valid tag found: {tag} (brand: {
-                  brand}, build number: {build_nr})")
-            return True
-        else:
-            exist_with_error(f"The directory of the tag: '{
-                             brand}' doesn't exist")
+        brand = Brand(brand_name)
+        print(f"{brand.name} {build_nr}")
     else:
-        exist_with_error(f"Invalid tag: {tag}")
+        _exit_with_error(f"Invalid tag: {tag}")
         return False
 
 
-def exist_with_error(msg):
+def _exit_with_error(msg):
     print(f"Error: {msg}")
     sys.exit(1)
 
@@ -42,7 +37,7 @@ def main():
         type=str
     )
     args = parser.parse_args()
-    return is_valid(args.tag)
+    return _is_valid(args.tag)
 
 
 if __name__ == "__main__":
