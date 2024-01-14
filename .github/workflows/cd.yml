@@ -93,10 +93,10 @@ jobs:
 
       - name: Set up scheme, version, build_number from files
         run: |
-          VERSION=$(cat .build_version)
+          VERSION=$(cat apple/custom/.build_version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-          BRAND=$(cat .brand_name)
+          BRAND=$(cat apple/custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
 
       - name: Set up variables for build
