@@ -86,12 +86,13 @@ jobs:
 
       - name: Set up scheme, version, build_number from files
         run: |
-          cd apple
+          # move the checked out github actions to root folder:
+          mv apple/.github/ .
 
-          BRAND=$(<./custom/.brand_name)
+          BRAND=$(<./apple/custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
 
-          VERSION=$(<./custom/.version_number)
+          VERSION=$(<./apple/custom/.version_number)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           
       # taken from: kiwix/apple .github/workflows/cd.yml
@@ -136,7 +137,7 @@ jobs:
         run: echo "${APPLE_STORE_AUTH_KEY}" | base64 --decode -o $APPLE_STORE_AUTH_KEY_PATH
 
       - name: Build xcarchive
-        uses: ./apple/custom/.github/actions/xcbuild
+        uses: ./.github/actions/xcbuild
         with:
           action: archive
           xc-destination: generic/platform=${{ matrix.destination.platform }}
@@ -145,6 +146,7 @@ jobs:
           version: ${{ env.VERSION }}
           XC_SCHEME: ${{ env.BRAND }}
           DOWNLOAD_DEPENDENCIES: false
+          XC_WORKSPACE: apple/Kiwix.xcodeproj/project.xcworkspace/
           # eof custom app specific
           APPLE_DEVELOPMENT_SIGNING_CERTIFICATE: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_CERTIFICATE }}
           APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD }}
