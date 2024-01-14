@@ -3,8 +3,8 @@ name: Publish Custom App
 on:
   release:
     types: [published]
-    # branches: # TODO: uncomment this once all good
-    #   - main
+    branches:
+      - main
 
 # taken from: kiwix/apple .github/workflows/cd.yml
 env:
@@ -22,7 +22,7 @@ jobs:
         destination:
           - platform: macOS
           - platform: iOS
-          xcode_extra: -sdk iphoneos
+            xcode_extra: -sdk iphoneos
     runs-on: macos-13      
     steps:
       - name: Checkout code
