@@ -86,7 +86,6 @@ jobs:
 
       - name: Set up scheme, version, build_number from files
         run: |
-          mv apple/.github/actions/ .github/
           cd apple
           ls -la custom
 
