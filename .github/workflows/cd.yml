@@ -3,8 +3,8 @@ name: Publish Custom App
 on:
   release:
     types: [published]
-    branches:
-      - main
+    # branches: # TODO: uncomment this once all good
+    #   - main
 
 # taken from: kiwix/apple .github/workflows/cd.yml
 env:
@@ -16,15 +16,14 @@ env:
 
 jobs:
   generate_build_deploy:
-    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
         destination:
           - platform: macOS
           - platform: iOS
-            xcode_extra: -sdk iphoneos
-
+          xcode_extra: -sdk iphoneos
+    runs-on: macos-13      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
