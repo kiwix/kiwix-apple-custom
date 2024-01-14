@@ -87,7 +87,6 @@ jobs:
       - name: Set up scheme, version, build_number from files
         run: |
           cd apple
-          ls -la custom
 
           BRAND=$(<./custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
@@ -137,7 +136,7 @@ jobs:
         run: echo "${APPLE_STORE_AUTH_KEY}" | base64 --decode -o $APPLE_STORE_AUTH_KEY_PATH
 
       - name: Build xcarchive
-        uses: ./custom/.github/actions/xcbuild
+        uses: ./apple/custom/.github/actions/xcbuild
         with:
           action: archive
           xc-destination: generic/platform=${{ matrix.destination.platform }}
