@@ -15,8 +15,15 @@ env:
   APPLE_STORE_AUTH_KEY_PATH: /tmp/authkey.p8
 
 jobs:
-  generate:
+  generate_build_deploy:
     runs-on: macos-13
+    strategy:
+      fail-fast: false
+      matrix:
+        destination:
+          - platform: macOS
+          - platform: iOS
+            xcode_extra: -sdk iphoneos
 
     steps:
       - name: Checkout code
@@ -77,31 +84,16 @@ jobs:
           ls -la
 
 
-
-  # taken from: kiwix/apple .github/workflows/cd.yml
-  build_and_deploy:
-    runs-on: macos-13
-    needs: generate
-    strategy:
-      fail-fast: false
-      matrix:
-        destination:
-          - platform: macOS
-          - platform: iOS
-            xcode_extra: -sdk iphoneos
-
-    steps:
-
       - name: Set up scheme, version, build_number from files
         run: |
-          pwd()
           ls -la
           VERSION=$(cat apple/custom/.build_version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
+          
           BRAND=$(cat apple/custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
-
+          
+      # taken from: kiwix/apple .github/workflows/cd.yml
       - name: Set up variables for build
         env:
           PLATFORM: ${{ matrix.destination.platform }}
