@@ -138,7 +138,7 @@ jobs:
         run: echo "${APPLE_STORE_AUTH_KEY}" | base64 --decode -o $APPLE_STORE_AUTH_KEY_PATH
 
       - name: Build xcarchive
-        uses: .github/actions/xcbuild
+        uses: ./.github/actions/xcbuild
         with:
           action: archive
           xc-destination: generic/platform=${{ matrix.destination.platform }}
