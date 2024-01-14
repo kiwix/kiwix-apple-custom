@@ -3,3 +3,8 @@
 **/.DS_Store
 **/*.plist
 custom_project_test.yml
+
+# temp files for build
+.brand_name
+.build_number
+.version_number

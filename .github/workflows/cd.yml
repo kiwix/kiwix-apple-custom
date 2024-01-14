@@ -6,8 +6,16 @@ on:
     branches:
       - main
 
+# taken from: kiwix/apple .github/workflows/cd.yml
+env:
+  KEYCHAIN: /Users/runner/build.keychain-db
+  KEYCHAIN_PASSWORD: mysecretpassword
+  KEYCHAIN_PROFILE: build-profile
+  SSH_KEY: /tmp/id_rsa
+  APPLE_STORE_AUTH_KEY_PATH: /tmp/authkey.p8
+
 jobs:
-  publish:
+  generate:
     runs-on: macos-13
 
     steps:
@@ -32,7 +40,7 @@ jobs:
         with:
           repository: kiwix/apple
           path: apple
-          ref: main
+          ref: feature/build-optional-dependency-resolve
 
       - name: Install Python dependencies for custom project generation
         run: python -m pip install pyyaml
@@ -66,3 +74,117 @@ jobs:
           xcodegen -s custom_project.yml
           
           ls -la
+
+
+
+  # taken from: kiwix/apple .github/workflows/cd.yml
+  build_and_deploy:
+    runs-on: macos-13
+    needs: generate
+    strategy:
+      fail-fast: false
+      matrix:
+        destination:
+          - platform: macOS
+          - platform: iOS
+            xcode_extra: -sdk iphoneos
+
+    steps:
+
+      - name: Set up scheme, version, build_number from files
+        run: |
+          VERSION=$(cat .build_version)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+          BRAND=$(cat .brand_name)
+          echo "BRAND=$BRAND" >> $GITHUB_ENV
+
+      - name: Set up variables for build
+        env:
+          PLATFORM: ${{ matrix.destination.platform }}
+          UPLOAD_TO: app-store
+          EXTRA_XCODEBUILD: ${{ matrix.destination.xcode_extra }}
+          APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
+          APPLE_STORE_AUTH_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
+          APPLE_STORE_AUTH_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
+        shell: python
+        run: |
+          import os
+
+          extra_xcode = os.getenv("EXTRA_XCODEBUILD", "")
+          if os.getenv("PLATFORM") == "iOS":
+            extra_xcode += f" -authenticationKeyPath {os.getenv('APPLE_STORE_AUTH_KEY_PATH')}"
+            extra_xcode += f" -authenticationKeyID {os.getenv('APPLE_STORE_AUTH_KEY_ID')}"
+            extra_xcode += f" -authenticationKeyIssuerID {os.getenv('APPLE_STORE_AUTH_KEY_ISSUER_ID')}"
+
+          with open(os.getenv("GITHUB_ENV"), "a") as fh:
+            fh.write(f"EXPORT_METHOD={'app-store'}\n")
+            fh.write(f"EXTRA_XCODEBUILD={extra_xcode}\n")
+
+      - name: Prepare use of Apple Distribution Certificate
+        shell: bash
+        env:
+          APPLE_DISTRIBUTION_SIGNING_CERTIFICATE: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_CERTIFICATE }}
+          APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD }}
+          APPLE_DEVELOPMENT_SIGNING_IDENTITY: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_IDENTITY }}
+        run: |
+          echo "SIGNING_CERTIFICATE=${APPLE_DISTRIBUTION_SIGNING_CERTIFICATE}" >> "$GITHUB_ENV"
+          echo "SIGNING_CERTIFICATE_P12_PASSWORD=${APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD}" >> "$GITHUB_ENV"
+          echo "SIGNING_IDENTITY=${APPLE_DEVELOPMENT_SIGNING_IDENTITY}" >> "$GITHUB_ENV"
+
+      - name: Add Apple Store Key
+        env:
+          APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
+          APPLE_STORE_AUTH_KEY: ${{ secrets.APPLE_STORE_AUTH_KEY }}
+        shell: bash
+        run: echo "${APPLE_STORE_AUTH_KEY}" | base64 --decode -o $APPLE_STORE_AUTH_KEY_PATH
+
+      - name: Build xcarchive
+        uses: ./apple/.github/actions/xcbuild
+        with:
+          action: archive
+          xc-destination: generic/platform=${{ matrix.destination.platform }}
+          upload-to: "app-store"
+          # custom app specific
+          version: ${{ env.VERSION }}
+          XC_SCHEME: ${{ env.BRAND }}
+          DOWNLOAD_DEPENDENCIES: false
+          # eof custom app specific
+          APPLE_DEVELOPMENT_SIGNING_CERTIFICATE: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_CERTIFICATE }}
+          APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD }}
+          DEPLOYMENT_SIGNING_CERTIFICATE: ${{ env.SIGNING_CERTIFICATE }}
+          DEPLOYMENT_SIGNING_CERTIFICATE_P12_PASSWORD: ${{ env.SIGNING_CERTIFICATE_P12_PASSWORD }}
+          KEYCHAIN: ${{ env.KEYCHAIN }}
+          KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
+          KEYCHAIN_PROFILE: ${{ env.KEYCHAIN_PROFILE }}
+          EXTRA_XCODEBUILD: ${{ env.EXTRA_XCODEBUILD }}
+
+      - name: Add altool credentials to Keychain
+        shell: bash
+        env:
+          APPLE_SIGNING_ALTOOL_USERNAME: ${{ secrets.APPLE_SIGNING_ALTOOL_USERNAME }}
+          APPLE_SIGNING_ALTOOL_PASSWORD: ${{ secrets.APPLE_SIGNING_ALTOOL_PASSWORD }}
+          APPLE_SIGNING_TEAM: ${{ secrets.APPLE_SIGNING_TEAM }}
+        run: |
+          security find-identity -v $KEYCHAIN
+          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
+          xcrun notarytool store-credentials \
+              --apple-id "${APPLE_SIGNING_ALTOOL_USERNAME}" \
+              --password "${APPLE_SIGNING_ALTOOL_PASSWORD}" \
+              --team-id "${APPLE_SIGNING_TEAM}" \
+              --validate \
+              --keychain $KEYCHAIN \
+              $KEYCHAIN_PROFILE
+
+      - name: Prepare export for ${{ env.EXPORT_METHOD }}
+        run: |
+          plutil -create xml1 ./export.plist
+          plutil -insert destination -string upload ./export.plist
+          plutil -insert method -string $EXPORT_METHOD ./export.plist
+
+      # - name: Upload Archive to Apple (App Store or Notarization)
+      #   env:
+      #     APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
+      #     APPLE_STORE_AUTH_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
+      #     APPLE_STORE_AUTH_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
+      #   run: xcrun xcodebuild -exportArchive -archivePath $PWD/Kiwix-$VERSION.xcarchive -exportPath $PWD/export/ -exportOptionsPlist export.plist -authenticationKeyPath $APPLE_STORE_AUTH_KEY_PATH -allowProvisioningUpdates -authenticationKeyID $APPLE_STORE_AUTH_KEY_ID -authenticationKeyIssuerID $APPLE_STORE_AUTH_KEY_ISSUER_ID
