@@ -34,7 +34,7 @@ def main():
     custom_apps.create_plists(custom_plist=Path("Custom.plist"))
 
     # download the zim files
-    custom_apps.download_zim_files()
+    # custom_apps.download_zim_files()
 
     # finally create the project file, containing all brands as targets
     custom_apps.create_custom_project_file(path=Path("custom_project.yml"))
