@@ -54,10 +54,9 @@ jobs:
       - name: Install Kiwix dependencies
         run:
           | 
-          # cd apple
-          # brew bundle 
-          # cd ..
-          brew install xcodegen
+          cd apple
+          brew bundle 
+          cd ..
       
       - name: Generate project based on tag
         env:
@@ -179,9 +178,9 @@ jobs:
           plutil -insert destination -string upload ./export.plist
           plutil -insert method -string $EXPORT_METHOD ./export.plist
 
-      # - name: Upload Archive to Apple (App Store or Notarization)
-      #   env:
-      #     APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
-      #     APPLE_STORE_AUTH_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
-      #     APPLE_STORE_AUTH_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
-      #   run: xcrun xcodebuild -exportArchive -archivePath $PWD/Kiwix-$VERSION.xcarchive -exportPath $PWD/export/ -exportOptionsPlist export.plist -authenticationKeyPath $APPLE_STORE_AUTH_KEY_PATH -allowProvisioningUpdates -authenticationKeyID $APPLE_STORE_AUTH_KEY_ID -authenticationKeyIssuerID $APPLE_STORE_AUTH_KEY_ISSUER_ID
+      - name: Upload Archive to Apple (App Store or Notarization)
+        env:
+          APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
+          APPLE_STORE_AUTH_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
+          APPLE_STORE_AUTH_KEY_ISSUER_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ISSUER_ID }}
+        run: xcrun xcodebuild -exportArchive -archivePath $PWD/Kiwix-$VERSION.xcarchive -exportPath $PWD/export/ -exportOptionsPlist export.plist -authenticationKeyPath $APPLE_STORE_AUTH_KEY_PATH -allowProvisioningUpdates -authenticationKeyID $APPLE_STORE_AUTH_KEY_ID -authenticationKeyIssuerID $APPLE_STORE_AUTH_KEY_ISSUER_ID
