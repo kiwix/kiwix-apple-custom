@@ -79,7 +79,7 @@ runs:
         security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
 
     - name: Add Apple Development certificate to Keychain
-      uses: ./custom/.github/actions/install-cert
+      uses: ./apple/custom/.github/actions/install-cert
       with:
         SIGNING_CERTIFICATE: ${{ inputs.APPLE_DEVELOPMENT_SIGNING_CERTIFICATE }}
         SIGNING_CERTIFICATE_P12_PASSWORD: ${{ inputs.APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD }}
@@ -88,7 +88,7 @@ runs:
 
     - name: Add Distribution certificate to Keychain
       if: ${{ inputs.DEPLOYMENT_SIGNING_CERTIFICATE }}
-      uses: ./.github/actions/install-cert
+      uses: ./apple/custom/.github/actions/install-cert
       with:
         SIGNING_CERTIFICATE: ${{ inputs.DEPLOYMENT_SIGNING_CERTIFICATE }}
         SIGNING_CERTIFICATE_P12_PASSWORD: ${{ inputs.DEPLOYMENT_SIGNING_CERTIFICATE_P12_PASSWORD }}
