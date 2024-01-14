@@ -86,6 +86,7 @@ jobs:
 
       - name: Set up scheme, version, build_number from files
         run: |
+          mv apple/.github/actions/ .github/
           cd apple
           ls -la custom
 
@@ -137,7 +138,7 @@ jobs:
         run: echo "${APPLE_STORE_AUTH_KEY}" | base64 --decode -o $APPLE_STORE_AUTH_KEY_PATH
 
       - name: Build xcarchive
-        uses: ./apple/.github/actions/xcbuild
+        uses: .github/actions/xcbuild
         with:
           action: archive
           xc-destination: generic/platform=${{ matrix.destination.platform }}
