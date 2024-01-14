@@ -86,12 +86,12 @@ jobs:
 
       - name: Set up scheme, version, build_number from files
         run: |
-          cd apple
+          cd apple/custom
           ls -la
-          VERSION=$(cat ./custom/.build_version)
+          VERSION=$(<.build_version)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           
-          BRAND=$(cat ./custom/.brand_name)
+          BRAND=$(<.brand_name) 
           echo "BRAND=$BRAND" >> $GITHUB_ENV
           
       # taken from: kiwix/apple .github/workflows/cd.yml
