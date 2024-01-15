@@ -135,9 +135,8 @@ class InfoParser:
             return ["**/qqq.lproj"]
         else:
             # Copy the enforced lang to the custom folder
-            for lang_file in Path().parent.rglob(f'{enforced}.lproj'):
-                lang_file.copy
+            for lang_file in Path().cwd().parent.rglob(f'{enforced}.lproj'):
                 shutil.copytree(
-                    lang_file, Path().parent/"custom"/self.brand_name, dirs_exist_ok=True)
+                    lang_file, Path().cwd().parent/"custom"/self.brand_name, dirs_exist_ok=True)
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]
