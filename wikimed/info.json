@@ -1,0 +1,12 @@
+{
+    "about_app_url": "https://www.kiwix.org/support",
+    "about_text": "",
+    "app_name": "WikiMed",
+    "app_store_id": "id1281693200",
+    "build_number": 2,
+    "enforced_lang": "en",
+    "settings_default_external_link_to": "alwaysAsk",
+    "settings_show_external_link_option": false,
+    "settings_show_search_snippet": false,
+    "zim_url": "https://mirror.download.kiwix.org/zim/.hidden/custom_apps/mdwiki_en_all-app_maxi_2023-12.zim"
+}
