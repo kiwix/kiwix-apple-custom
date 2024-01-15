@@ -14,7 +14,6 @@ class Version:
             raise ValueError(f"invalid year: {year}")
         
         self.semantic = f"{year}.{month}.{build_number}"
-        self.semantic_downgraded = f"{year-1000}.{month}.{build_number}"
         self.build_number = build_number
 
     @classmethod

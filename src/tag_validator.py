@@ -42,7 +42,7 @@ def _is_valid(tag):
         # save the specific parts of the tag as temp files:
         Path('.brand_name').write_text(f"{brand.name}")
         Path('.build_number').write_text(f"{version.build_number}")
-        Path('.version_number').write_text(f"{version.semantic_downgraded}")
+        Path('.version_number').write_text(f"{version.semantic}")
         
         # required as an output, we can pipe on:
         print(f"{brand.name} {version.build_number}")

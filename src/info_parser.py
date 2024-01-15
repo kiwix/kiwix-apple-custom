@@ -57,7 +57,7 @@ class InfoParser:
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
                 # TODO: change to .semantic, once builds are OK
-                "MARKETING_VERSION": self.version.semantic_downgraded, 
+                "MARKETING_VERSION": self.version.semantic, 
                 "PRODUCT_BUNDLE_IDENTIFIER": self._bundle_id(),
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
