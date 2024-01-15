@@ -3,6 +3,7 @@
     "about_text": "Offline Medical Wikipedia",
     "app_name": "WikiMed",
     "app_store_id": "id1281693200",
+    "bundle_id": "org.kiwix.wikimed",
     "build_number": 2,
     "enforced_lang": "en",
     "settings_default_external_link_to": "alwaysLoad",
