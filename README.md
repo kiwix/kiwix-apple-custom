@@ -26,7 +26,7 @@ file which **is required to be placed in the custom app folder**. Take example o
 existing one if you need to create a new custom app. The most
 important fields are:
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. (Eg. "https://www.dwds.de")
-- `about_text` - this is a custom text that is placed in the "About section" describing what the application is about.
+- `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
 - `build_version` - it should be a single digit number, used as the last part of the final app version.
