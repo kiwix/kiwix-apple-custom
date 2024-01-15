@@ -30,6 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: custom
+          ref: wikimed
 
       - name: Set tag variable as an output
         id: vars
