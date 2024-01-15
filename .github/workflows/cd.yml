@@ -5,6 +5,7 @@ on:
     types: [published]
     branches:
       - main
+      - wikimed
 
 # taken from: kiwix/apple .github/workflows/cd.yml
 env:
