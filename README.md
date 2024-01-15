@@ -19,7 +19,7 @@ each custom configuration is isolated in a so called custom app
 folder. If you need to create a new one for a new custom app, please use a folder name
 that is lowercased and contains no space.
 
-## info.json file
+## `info.json` file
 
 The configuration of the custom app is handled using the `info.json`
 file which **is required to be placed in the custom app folder**. Take example on an already
