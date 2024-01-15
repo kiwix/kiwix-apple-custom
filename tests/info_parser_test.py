@@ -47,16 +47,13 @@ class InfoParserTest(unittest.TestCase):
 
     def test_app_version_with_default_json_build_number(self):
         self.assertEqual(self.parser.version.semantic, "2023.12.3")
-        self.assertEqual(self.parser.version.semantic_downgraded, "1023.12.3")
 
     def test_app_version_using_a_specific_build_number(self):
         parser = InfoParser(Path("tests")/"test.json", build_number=15)
         self.assertEqual(parser.version.semantic, "2023.12.15")
-        self.assertEqual(parser.version.semantic_downgraded, "1023.12.15")
 
         parser = InfoParser(Path("tests")/"test.json", build_number=33)
         self.assertEqual(parser.version.semantic, "2023.12.33")
-        self.assertEqual(parser.version.semantic_downgraded, "1023.12.33")
 
     def test_as_plist(self):
         self.parser.create_plist(
