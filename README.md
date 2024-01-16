@@ -23,8 +23,9 @@ that is lowercased and contains no space.
 
 The configuration of the custom app is handled using the `info.json`
 file which **is required to be placed in the custom app folder**. Take example on an already
-existing one if you need to create a new custom app. The most
-important fields are:
+existing one if you need to create a new custom app. 
+
+### The required fields are:
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. (Eg. "https://www.dwds.de")
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
@@ -46,7 +47,13 @@ If your download requires standard http authentication, see `zim_auth`.
 
     Note: If you see the standard Kiwix like start page after compiling and running your custom app, that's an indication that this value is either missing, or there's something wrong with the zimfile itself.
 
-- `zim_auth` - this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
+### Optional fields
+
+These key / values can be, but do not need to be included in the `info.json` file:
+
+- `bundle_id` - (optional) It should match to the bundle id set on the Apple Developer website for this app. If it's not set it will default to: "org.kiwix.custom.{brand_name}", where the brand name is the name of the folder, eg: "org.kiwix.custom.dwds".
+
+- `zim_auth` - (optional) this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
 
 ## XCAssets file
 
