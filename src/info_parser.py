@@ -24,7 +24,7 @@ JSON_TO_PLIST_MAPPING = {
 
 class InfoParser:
 
-    def __init__(self, json_path, build_number=None):
+    def __init__(self, json_path, build_number):
         """Parse a specific info.json file for a brand
 
         Args:
@@ -37,7 +37,6 @@ class InfoParser:
         assert (JSON_KEY_ZIM_URL in self.data)
         self.zim_file_name = self._filename_from(
             self.data[JSON_KEY_ZIM_URL])
-        build_number = build_number or self.data["build_number"]
         self.version = Version.from_file_name(file_name=self.zim_file_name,
                                               build_number=build_number)
 
