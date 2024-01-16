@@ -46,7 +46,6 @@ jobs:
         with:
           repository: kiwix/apple
           path: apple
-          ref: feature/build-optional-dependency-resolve
 
       - name: Install Python dependencies for custom project generation
         run: python -m pip install pyyaml
@@ -70,7 +69,8 @@ jobs:
           # make a custom copy of the Info.plist file
           cp ../Support/Info.plist Custom.plist
 
-          python src/tag_validator.py ${{ steps.vars.outputs.tag }} | python src/generate_and_download.py
+          python src/tag_validator.py ${{ steps.vars.outputs.tag }}
+          python src/generate_and_download.py
 
           # move the custom project file to the main folder
           mv custom_project.yml ../
