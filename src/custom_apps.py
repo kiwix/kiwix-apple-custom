@@ -64,4 +64,7 @@ class CustomApps:
             url = parser.zimurl()
             file_path = parser.zim_file_path()
             auth = parser.download_auth()
-            yield ["curl", "-L", url, "-u", auth, "-o", file_path]
+            if auth != None:
+                yield ["curl", "-L", url, "-u", auth, "-o", file_path]
+            else:
+                yield ["curl", "-L", url, "-o", file_path]

@@ -8,6 +8,7 @@ import plistlib
 
 JSON_KEY_ZIM_URL = "zim_url"
 JSON_KEY_AUTH = "zim_auth"
+JSON_BUNDLE_ID = "bundle_id"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
@@ -23,7 +24,7 @@ JSON_TO_PLIST_MAPPING = {
 
 class InfoParser:
 
-    def __init__(self, json_path, build_number=None):
+    def __init__(self, json_path, build_number):
         """Parse a specific info.json file for a brand
 
         Args:
@@ -36,7 +37,6 @@ class InfoParser:
         assert (JSON_KEY_ZIM_URL in self.data)
         self.zim_file_name = self._filename_from(
             self.data[JSON_KEY_ZIM_URL])
-        build_number = build_number or self.data["build_number"]
         self.version = Version.from_file_name(file_name=self.zim_file_name,
                                               build_number=build_number)
 
@@ -58,7 +58,7 @@ class InfoParser:
             "settings": {"base": {
                 # TODO: change to .semantic, once builds are OK
                 "MARKETING_VERSION": self.version.semantic_downgraded, 
-                "PRODUCT_BUNDLE_IDENTIFIER": f"org.kiwix.custom.{self.brand_name}",
+                "PRODUCT_BUNDLE_IDENTIFIER": self._bundle_id(),
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
@@ -94,8 +94,17 @@ class InfoParser:
         return Path()/self.brand_name/url.name
 
     def download_auth(self):
-        auth_key = self.data[JSON_KEY_AUTH]
-        return os.getenv(auth_key)
+        if JSON_KEY_AUTH in self.data:
+            auth_key = self.data[JSON_KEY_AUTH]
+            return os.getenv(auth_key)
+        else:
+            return None
+        
+    def _bundle_id(self):
+        if JSON_BUNDLE_ID in self.data:
+            return self.data[JSON_BUNDLE_ID]
+        else:
+            return f"org.kiwix.custom.{self.brand_name}"
 
     def _info_plist_path(self):
         return Path()/self.brand_name/f"{self.brand_name}.plist"
