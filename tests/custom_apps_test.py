@@ -6,11 +6,11 @@ from pathlib import Path
 class CustomAppsTest(unittest.TestCase):
 
     def setUp(self):
-        self.custom = CustomApps()
+        self.custom = CustomApps(brands=["dwds"], build_number=1)
 
     def test_custom_plist(self):
         self.custom.create_plists(
-            custom_plist=Path()/"tests"/"Support"/"Info.plist")
+            custom_plist=Path("tests")/"Support"/"Info.plist")
 
     def test_custom_project_creation(self):
         self.custom.create_custom_project_file(

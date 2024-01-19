@@ -8,7 +8,7 @@ import os
 class InfoParserTest(unittest.TestCase):
 
     def setUp(self):
-        self.parser = InfoParser(Path("tests")/"test.json")
+        self.parser = InfoParser(Path("tests")/"test.json", build_number=1)
 
     def test_json_to_project_yml(self):
         project = self.parser.as_project_yml()
@@ -46,7 +46,7 @@ class InfoParserTest(unittest.TestCase):
         self.assertIn("**/*.lproj", excluded)
 
     def test_app_version_with_default_json_build_number(self):
-        self.assertEqual(self.parser.version.semantic, "2023.12.3")
+        self.assertEqual(self.parser.version.semantic, "2023.12.1")
 
     def test_app_version_using_a_specific_build_number(self):
         parser = InfoParser(Path("tests")/"test.json", build_number=15)
