@@ -97,7 +97,6 @@ jobs:
       - name: Set up variables for build
         env:
           PLATFORM: ${{ matrix.destination.platform }}
-          UPLOAD_TO: app-store
           EXTRA_XCODEBUILD: ${{ matrix.destination.xcode_extra }}
           APPLE_STORE_AUTH_KEY_PATH: ${{ env.APPLE_STORE_AUTH_KEY_PATH }}
           APPLE_STORE_AUTH_KEY_ID: ${{ secrets.APPLE_STORE_AUTH_KEY_ID }}
@@ -139,7 +138,6 @@ jobs:
         with:
           action: archive
           xc-destination: generic/platform=${{ matrix.destination.platform }}
-          upload-to: "app-store"
           # custom app specific
           version: ${{ env.VERSION }}
           XC_SCHEME: ${{ env.BRAND }}
