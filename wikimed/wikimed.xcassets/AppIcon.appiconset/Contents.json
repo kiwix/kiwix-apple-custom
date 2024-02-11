@@ -1,67 +1,67 @@
 {
   "images" : [
     {
-      "filename" : "wikimed.png",
+      "filename" : "wikimed_1024.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
     },
     {
-      "filename" : "16-mac.png",
+      "filename" : "wikimed_16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "32-mac 1.png",
+      "filename" : "wikimed_32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "32-mac.png",
+      "filename" : "wikimed_32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "64-mac.png",
+      "filename" : "wikimed_64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "128-mac.png",
+      "filename" : "wikimed_128.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "256-mac 1.png",
+      "filename" : "wikimed_256.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "256-mac.png",
+      "filename" : "wikimed_256.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "512-mac 1.png",
+      "filename" : "wikimed_512.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "512-mac.png",
+      "filename" : "wikimed_512 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "wikimed 1.png",
+      "filename" : "wikimed_1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
