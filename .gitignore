@@ -8,3 +8,7 @@ custom_project_test.yml
 .brand_name
 .build_number
 .version_number
+
+# this is CI specific
+Brewfile_CI
+Brewfile_CI.lock.json

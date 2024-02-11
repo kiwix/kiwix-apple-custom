@@ -51,10 +51,10 @@ jobs:
         run: python -m pip install pyyaml
       
       - name: Install Kiwix dependencies
-        run:
-          | 
+        run: | # remove pre-commit, it's not needed for CI 
           cd apple
-          brew bundle 
+          cat Brewfile | grep -v -e pre-commit > Brewfile_CI
+          brew bundle --force --file Brewfile_CI
           cd ..
       
       - name: Generate project based on tag
