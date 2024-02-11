@@ -2,7 +2,7 @@ name: CI
 
 on:
   schedule:
-    - cron: '32 1 * * *' # NIGHTLY @ 00:01
+    - cron: '01 0 * * *' # NIGHTLY @ 00:01
   workflow_dispatch:
   push:
     branches:
