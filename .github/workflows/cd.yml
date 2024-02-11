@@ -54,7 +54,7 @@ jobs:
         run:
           | 
           cd apple
-          brew bundle 
+          brew bundle --force
           cd ..
       
       - name: Generate project based on tag
