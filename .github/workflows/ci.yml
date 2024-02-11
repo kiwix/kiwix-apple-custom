@@ -1,7 +1,8 @@
 name: CI
 
 on:
-  pull_request_target:
+  schedule:
+    - cron: '32 1 * * *' # NIGHTLY @ 00:01
   workflow_dispatch:
   push:
     branches:
