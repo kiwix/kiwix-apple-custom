@@ -17,7 +17,7 @@ env:
   APPLE_STORE_AUTH_KEY_PATH: /tmp/authkey.p8
 
 jobs:
-  generate_build_deploy:
+  test_and_build:
     strategy:
       fail-fast: false
       matrix:
