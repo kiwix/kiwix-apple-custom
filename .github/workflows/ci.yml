@@ -32,8 +32,11 @@ jobs:
         with:
           path: custom
 
+      - name: Show current folder
+        run: ls
+
       - name: Test python scripts
-        run: python -m unittest
+        run: python -m unittest discover -t . -s tests
 
       - name: Set test tag variable as an output
         id: vars
