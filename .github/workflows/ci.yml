@@ -32,6 +32,9 @@ jobs:
         with:
           path: custom
 
+      - name: Test python scripts
+        run: python -m unittest
+
       - name: Set test tag variable as an output
         id: vars
         run: echo "tag=testapp_2023.12.1" >> $GITHUB_OUTPUT  

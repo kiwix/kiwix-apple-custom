@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """Generate the custom app plist files, and a custom_project.yml. 
 Based on the arguments passed in:  
 where the subfolder name will become the "brand name" of the custom app.

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from urllib.parse import urlparse
 import json
 from pathlib import Path

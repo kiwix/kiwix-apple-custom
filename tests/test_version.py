@@ -1,5 +1,5 @@
 import unittest
-from src.version import Version
+from version import Version
 
 
 class VersionTest(unittest.TestCase):

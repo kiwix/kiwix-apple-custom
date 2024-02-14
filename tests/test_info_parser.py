@@ -1,5 +1,5 @@
 import unittest
-from src.info_parser import InfoParser
+from info_parser import InfoParser
 from pathlib import Path
 import yaml
 import os
@@ -70,3 +70,7 @@ class InfoParserTest(unittest.TestCase):
     def test_auth_value(self):
         self.assertEqual(self.parser.download_auth(), os.getenv(
             "DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION"))
+
+
+if __name__ == '__main__':
+    unittest.main()
