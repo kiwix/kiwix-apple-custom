@@ -1,5 +1,5 @@
 import unittest
-from src.custom_apps import CustomApps
+from custom_apps import CustomApps
 from pathlib import Path
 
 

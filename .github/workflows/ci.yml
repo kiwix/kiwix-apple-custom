@@ -30,11 +30,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          path: custom
+          path: custom 
+
+      - name: Install Python dependencies for custom project generation
+        run: python -m pip install pyyaml
+      
+      - name: Test python scripts
+        working-directory: custom
+        env:
+          PYTHONPATH: src/
+        run: python -m unittest
 
       - name: Set test tag variable as an output
         id: vars
-        run: echo "tag=testapp_2023.12.1" >> $GITHUB_OUTPUT  
+        run: echo "tag=testapp_2023.12.1" >> $GITHUB_OUTPUT 
 
       - name: Validate and parse the tag
         run: 
@@ -48,9 +57,6 @@ jobs:
         with:
           repository: kiwix/apple
           path: apple
-
-      - name: Install Python dependencies for custom project generation
-        run: python -m pip install pyyaml
       
       - name: Install Kiwix dependencies
         run: | # remove pre-commit, it's not needed for CI 
