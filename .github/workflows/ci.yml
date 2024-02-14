@@ -38,7 +38,7 @@ jobs:
       - name: Test python scripts
         working-directory: custom
         env:
-          PYTHONPATH: src/
+          PYTHONPATH: custom/src/
         run: python -m unittest
 
       - name: Set test tag variable as an output
