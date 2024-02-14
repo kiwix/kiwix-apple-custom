@@ -37,9 +37,7 @@ jobs:
       
       - name: Test python scripts
         working-directory: custom
-        env:
-          PYTHONPATH: custom/src
-        run: python -m unittest discover -t tests
+        run: PYTHONPATH=src python -m unittest discover -t tests
 
       - name: Set test tag variable as an output
         id: vars
