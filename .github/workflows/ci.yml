@@ -44,11 +44,8 @@ jobs:
         run: echo "tag=testapp_2023.12.1" >> $GITHUB_OUTPUT 
 
       - name: Validate and parse the tag
-        run: 
-          |
-          cd custom
-          python src/tag_validator.py ${{ steps.vars.outputs.tag }}
-          cd ..
+        working-directory: custom
+        run: python src/tag_validator.py ${{ steps.vars.outputs.tag }}
 
       - name: Check-out kiwix/apple
         uses: actions/checkout@v4
@@ -57,11 +54,10 @@ jobs:
           path: apple
       
       - name: Install Kiwix dependencies
+        working-directory: apple
         run: | # remove pre-commit, it's not needed for CI 
-          cd apple
           cat Brewfile | grep -v -e pre-commit > Brewfile_CI
           brew bundle --force --file Brewfile_CI
-          cd ..
       
       - name: Generate project based on tag
         env:
@@ -84,7 +80,6 @@ jobs:
           
           # run xcodegen on our custom project
           xcodegen -s custom_project.yml
-          
           ls -la
 
 
