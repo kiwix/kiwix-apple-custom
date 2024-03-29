@@ -20,7 +20,8 @@ JSON_TO_PLIST_MAPPING = {
     "about_text": "CUSTOM_ABOUT_TEXT",
     "settings_default_external_link_to": "SETTINGS_DEFAULT_EXTERNAL_LINK_TO",
     "settings_show_search_snippet": "SETTINGS_SHOW_SEARCH_SNIPPET",
-    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
+    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION",
+    "support_url": "SUPPORT_URL"
 }
 
 
