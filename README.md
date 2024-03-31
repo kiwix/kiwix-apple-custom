@@ -1,7 +1,7 @@
 # Kiwix Apple Custom Apps
 
 Kiwix Apple custom apps are iOS/macOS apps running [Kiwix for
-Apple](https://github.com/kiwix/apple) against a
+Apple](https://github.com/kiwix/kiwix-apple) against a
 pre-configured ZIM file.
 
 This project contains data and scripts needed to create specific
@@ -23,15 +23,15 @@ that is lowercased and contains no space.
 
 The configuration of the custom app is handled using the `info.json`
 file which **is required to be placed in the custom app folder**. Take example on an already
-existing one if you need to create a new custom app. 
+existing one if you need to create a new custom app.
 
 ### The required fields are:
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. (Eg. "https://www.dwds.de")
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
-- `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
- 
+- `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
+
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
 
 - `settings_default_external_link_to` - this controls how external links (pointing to content on the web, that are not included in the zimfile) should be treated. It can take one of the following values: 
@@ -72,12 +72,12 @@ These are mostly images and json files underneath, so theoretically they could b
 
 **In short: the app version is dictated by Github release tags.**
 
-The release process ensures a systematic and clear versioning and releasing workflow for custom apps. You need to use GitHub release tags to trigger TestFlight uploads. The automated process guarantees compliance with [our versioning rules](https://github.com/kiwix/apple/issues/559) and [Apple's versioning guidelines](https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleshortversionstring).
+The release process ensures a systematic and clear versioning and releasing workflow for custom apps. You need to use GitHub release tags to trigger TestFlight uploads. The automated process guarantees compliance with [our versioning rules](https://github.com/kiwix/kiwix-apple/issues/559) and [Apple's versioning guidelines](https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleshortversionstring).
 
-The app version must be in the format: `YYYY.MM.build_version` [More on this process here](https://github.com/kiwix/apple/issues/559), this version will be visible in the App Store.
+The app version must be in the format: `YYYY.MM.build_version` [More on this process here](https://github.com/kiwix/kiwix-apple/issues/559), this version will be visible in the App Store.
 
 Each release is tied to a Github release tag. The tag can be defined when creating the release. The name of the tag is going to determine which app we want to release, and what the final version of that app will be.
-The tag naming must follow the format: 
+The tag naming must follow the format:
 `{brand_name}_YYYY.MM.{build_number}(_optional-part)`, eg: `dwds_2023.12.9` or `wikimed_2023.12.88_test`)
 
 Where the:

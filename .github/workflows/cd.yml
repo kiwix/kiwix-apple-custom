@@ -6,7 +6,7 @@ on:
     branches:
       - main
 
-# taken from: kiwix/apple .github/workflows/cd.yml
+# taken from: kiwix/kiwix-apple .github/workflows/cd.yml
 env:
   KEYCHAIN: /Users/runner/build.keychain-db
   KEYCHAIN_PASSWORD: mysecretpassword
@@ -23,7 +23,7 @@ jobs:
           - platform: macOS
           - platform: iOS
             xcode_extra: -sdk iphoneos
-    runs-on: macos-13      
+    runs-on: macos-13
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,31 +32,31 @@ jobs:
 
       - name: Set tag variable as an output
         id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT  
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Validate tag
-        run: 
+        run:
           |
           cd custom
           python src/tag_validator.py ${{ steps.vars.outputs.tag }}
           cd ..
 
-      - name: Check-out kiwix/apple
+      - name: Check-out kiwix/kiwix-apple
         uses: actions/checkout@v4
         with:
-          repository: kiwix/apple
+          repository: kiwix/kiwix-apple
           path: apple
 
       - name: Install Python dependencies for custom project generation
         run: python -m pip install pyyaml
-      
+
       - name: Install Kiwix dependencies
-        run: | # remove pre-commit, it's not needed for CI 
+        run: | # remove pre-commit, it's not needed for CI
           cd apple
           cat Brewfile | grep -v -e pre-commit > Brewfile_CI
           brew bundle --force --file Brewfile_CI
           cd ..
-      
+
       - name: Generate project based on tag
         env:
           DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
@@ -75,10 +75,10 @@ jobs:
           # move the custom project file to the main folder
           mv custom_project.yml ../
           cd ..
-          
+
           # run xcodegen on our custom project
           xcodegen -s custom_project.yml
-          
+
           ls -la
 
 
@@ -92,8 +92,8 @@ jobs:
 
           VERSION=$(<./apple/custom/.version_number)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          
-      # taken from: kiwix/apple .github/workflows/cd.yml
+
+      # taken from: kiwix/kiwix-apple .github/workflows/cd.yml
       - name: Set up variables for build
         env:
           PLATFORM: ${{ matrix.destination.platform }}
