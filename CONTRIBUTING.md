@@ -7,11 +7,11 @@ Therefore each brand will end up with 2 apps (one for iOS and one for macOS).
 
 ## At the beginning we have the following:
 - custom brand folders, each with an info.json file, and xcassets
-- we have the `kiwix/apple` code (as a seperate repository). 
+- we have the `kiwix/kiwix-apple` code (as a seperate repository).
 
-    We do not add any swift code to custom apps. All swift code related to custom apps is already included in `kiwix/apple` repository, it is just "not used" by the Kiwix apps.
+    We do not add any swift code to custom apps. All swift code related to custom apps is already included in `kiwix/kiwix-apple` repository, it is just "not used" by the Kiwix apps.
 
-The `kiwix/apple` repo is checked out into `/apple` folder, while the custom app repo (this one), is checked out under `/custom` folder.
+The `kiwix/kiwix-apple` repo is checked out into `/apple` folder, while the custom app repo (this one), is checked out under `/custom` folder.
 
 Since most of the code and files are already in the `/apple` folder, we copy the `/custom` folder under it, so it ends up in: `/apple/custom`. We do the rest of the building from the `/apple` folder.
 
@@ -38,14 +38,14 @@ SETTINGS_SHOW_EXTERNAL_LINK_OPTION = NO
 This way we end up with a plist file dedicated to a specific brand containing all the variables and values it needs.
 
 ## Enforced language?
-If we use enforcing a language for a brand, what that really means is: we cannot use any of the localization folders contained in the main (kiwix/apple) repo, instead we need to make a copy of a single language folder, eg: `de.lproj` and place it into the custom folder eg: `/custom/dwds/de.lproj` and include only that in the project. 
+If we use enforcing a language for a brand, what that really means is: we cannot use any of the localization folders contained in the main (kiwix/kiwix-apple) repo, instead we need to make a copy of a single language folder, eg: `de.lproj` and place it into the custom folder eg: `/custom/dwds/de.lproj` and include only that in the project.
 
 (Note: only including / excluding does not work as the references to those language folders in the final Xcode project file will mess up. So we need a copy of the enforced lang folder in the custom apps folder, and only this way it works as expected.)
 
 An extra step is required here, we also need to set the DEVELOPMENT_LANGUAGE to this value (eg. "de").
 
 # A new custom_project.yml file
-The main `kiwix/apple` repo contains a `project.yml` file, it describes all the common build and project settings, and all the templates we re-use to create a final xcode project file, which is used to build the custom apps. At the end each custom app will be a separate target we can build.
+The main `kiwix/kiwix-apple` repo contains a `project.yml` file, it describes all the common build and project settings, and all the templates we re-use to create a final xcode project file, which is used to build the custom apps. At the end each custom app will be a separate target we can build.
 Therefore we dynamically create the `custom_project.yml` file, which will import the `project.yml`, and sets up the new targets (one for each brand), it looks more or less, like this:
 ```
 include:
