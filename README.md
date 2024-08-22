@@ -51,8 +51,6 @@ These key / values can be, but do not need to be included in the `info.json` fil
 
 - `bundle_id` - (optional) It should match to the bundle id set on the Apple Developer website for this app. If it's not set it will default to: "org.kiwix.custom.{brand_name}", where the brand name is the name of the folder, eg: "org.kiwix.custom.dwds".
 
-- `support_url` - (optional) The _"Support \\(app_name)"_ item in the sidebar by default links to: "https://kiwix.org/get-involved/". This link target can be changed by setting `support_url`. It has to be a vaild URL. If setting it to an invalid URL, eg. empty value: `"support_url": ""`, the _"Support \\(app_name)"_ item will be hidden in the app.
-
 - `zim_auth` - (optional) this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
 
 ## XCAssets file
