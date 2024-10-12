@@ -4,6 +4,8 @@
     "app_name": "TestApp",
     "app_store_id": "id1281693200",
     "enforced_lang": "en",
+    "logo_width": 243,
+    "logo_height": 243,
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
