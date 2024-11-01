@@ -30,8 +30,6 @@ existing one if you need to create a new custom app.
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
-- `logo_width` - This should be the the app welcomeLogo asset image size width. In order to properly size and position the SplashScreen logo and the LoadingView logo position, this is required for a custom app.
-- `logo_height` - This should be the the app welcomeLogo asset image size height.
 - `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.

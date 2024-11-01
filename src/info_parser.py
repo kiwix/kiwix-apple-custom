@@ -13,8 +13,6 @@ JSON_KEY_AUTH = "zim_auth"
 JSON_BUNDLE_ID = "bundle_id"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
-JSON_KEY_LOGO_WIDTH = "logo_width"
-JSON_KEY_LOGO_HEIGHT = "logo_height"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
 JSON_TO_PLIST_MAPPING = {
     "app_store_id": "APP_STORE_ID",
@@ -22,9 +20,7 @@ JSON_TO_PLIST_MAPPING = {
     "about_text": "CUSTOM_ABOUT_TEXT",
     "settings_default_external_link_to": "SETTINGS_DEFAULT_EXTERNAL_LINK_TO",
     "settings_show_search_snippet": "SETTINGS_SHOW_SEARCH_SNIPPET",
-    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION",
-    JSON_KEY_LOGO_WIDTH: "LOGO_WIDTH",
-    JSON_KEY_LOGO_HEIGHT: "LOGO_HEIGHT"
+    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
 }
 
 
@@ -41,8 +37,6 @@ class InfoParser:
         content = json_path.read_text()
         self.data = json.loads(content)
         assert (JSON_KEY_ZIM_URL in self.data)
-        assert (JSON_KEY_LOGO_WIDTH in self.data)
-        assert (JSON_KEY_LOGO_HEIGHT in self.data)
         self.zim_file_name = self._filename_from(
             self.data[JSON_KEY_ZIM_URL])
         self.version = Version.from_file_name(file_name=self.zim_file_name,
