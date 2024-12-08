@@ -57,6 +57,7 @@ targets:
     settings:
       base:
         DEVELOPMENT_LANGUAGE: de
+        DEVELOPMENT_TEAM: L7HWM3SP3L,
         INFOPLIST_FILE: custom/dwds/dwds.plist
         INFOPLIST_KEY_CFBundleDisplayName: DWDS
         INFOPLIST_KEY_UILaunchStoryboardName: SplashScreen.storyboard

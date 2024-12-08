@@ -4,6 +4,7 @@
     "app_name": "WikiMed",
     "app_store_id": "id1281693200",
     "bundle_id": "org.kiwix.wikimed",
+    "development_team": "L7HWM3SP3L",
     "enforced_lang": "en",
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,

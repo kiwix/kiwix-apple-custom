@@ -13,6 +13,7 @@ JSON_KEY_AUTH = "zim_auth"
 JSON_BUNDLE_ID = "bundle_id"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
+JSON_KEY_DEVELOPMENT_TEAM = "development_team"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
 JSON_TO_PLIST_MAPPING = {
     "app_store_id": "APP_STORE_ID",
@@ -63,13 +64,14 @@ class InfoParser:
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
-                "DEVELOPMENT_LANGUAGE": self._dev_language()
+                "DEVELOPMENT_LANGUAGE": self._dev_language(),
                 # without specifying DEVELOPMENT_LANGUAGE,
                 # the default value of it: English will be added to the list of
                 # selectable languages in iOS Settings,
                 # even if the en.lproj is excluded from the sources.
                 # If DEVELOPMENT_LANGUAGE is not added, enforcing a single language is not effective,
                 # therefore it's better to set it to the enforced language value if there's such.
+                "DEVELOPMENT_TEAM": self._development_team()
             }
             },
             "sources": [
@@ -119,6 +121,9 @@ class InfoParser:
 
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
+    
+    def _development_team(self):
+        return self.data[JSON_KEY_DEVELOPMENT_TEAM]
 
     def _dev_language(self):
         enforced = self._enforced_language()
