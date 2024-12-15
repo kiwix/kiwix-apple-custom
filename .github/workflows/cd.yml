@@ -60,7 +60,7 @@ jobs:
 
       - name: Generate project based on tag
         env:
-          DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
+          HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.HTTP_BASIC_ACCESS_AUTHENTICATION }}
         run:
           |
           # move the custom files under the same folder as the kiwix repo
