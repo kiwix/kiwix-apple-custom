@@ -30,7 +30,7 @@ existing one if you need to create a new custom app.
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
-- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L)
+- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L). You can find your team id in the upper right corner of the screen (after you login to) your [Apple Developer Account](https://developer.apple.com/account/resources/certificates/list).
 - `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
@@ -86,6 +86,49 @@ Where the:
 - `optional-part` - any value can be added here, it is only indicative, eg for different attempts to release the same app version, such as in the case of a failed build restart, eg: `dwds_2023.12.90_testing01`, `dwds_2023.12.90_testing02`. The value of the optional part is ignored in the build process, it is only an indicator, we can use to distinguish between attempts to release the very same version of an app.
 
 Note: Both iOS and macOS applications are created from the same source code and are versioned and released together.
+
+# Release from an external Apple Account (non Kiwix)
+In order to use a different Apple Account for your app, further setup is required.
+## Create the Application on Apple Developer
+You need to create a new App on your Apple Developer account, please tick both iOS and macOS when creating it. Take note of the bundleID you pick for your application, that should be put into info.json (see above). Additionally each team (Apple Developer Account) has a unique development team ID, this should be also put into the info.json file for your brand.
+
+
+## Storing secrets in GitHub
+A dedicated GitHub environment will be created for your brand, where your secrets will be kept.
+
+> [!NOTE]
+> **The values for the below keys contain secret values, do not send them publicly to GitHub tickets, or any publicly available space.** These secrets need to be sent over e-mail or via other Private Message solution.
+
+## Certificates
+These certificates need to be created one by one [under your Apple Developer Account](https://developer.apple.com/account/resources/certificates/list):
+- "Apple Development - Sign development versions of your iOS, iPadOS, macOS, tvOS, watchOS, and visionOS apps."
+- "Apple Distribution - Sign your iOS, iPadOS, macOS, tvOS, watchOS, and visionOS apps for release testing using Ad Hoc distribution or for submission to App Store Connect."
+- "Developer ID Application - This certificate is used to code sign your app for distribution outside of the Mac App Store Connect."
+### Download and export your certificates:
+- The automated build process, require your certifates to be in .p12 format. Once you have created the above certificates, you can download them to a mac, and export them using the .p12 format, following [Apple guide on this](https://help.apple.com/xcode/mac/current/#/dev154b28f09).
+- During export you need to set a password protecting the certificate itself, please take note of it.
+From the above process you will have 3 certificates exported to .p12 format, 3 passwords. These need to be set on GitHub environment by us, under the keys:
+- APPLE_DEVELOPMENT_SIGNING_CERTIFICATE
+- APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD
+- APPLE_DISTRIBUTION_SIGNING_CERTIFICATE
+- APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD
+- APPLE_DEVELOPMENT_SIGNING_IDENTITY
+
+### Set up Apple store authentication
+In order to automatically build and upload the builds to the App store the following also need to be set up under the GitHub environment:
+
+- APPLE_STORE_AUTH_KEY
+- APPLE_STORE_AUTH_KEY_ID
+- APPLE_STORE_AUTH_KEY_ISSUER_ID
+
+### Sign your apps for distribution outside of the App Store:
+In order to do so, we will need the following values as well:
+- APPLE_SIGNING_TEAM
+- APPLE_SIGNING_ALTOOL_USERNAME
+- APPLE_SIGNING_ALTOOL_PASSWORD
+
+## ZIM file behind http authentication (optional)
+- HTTP_BASIC_ACCESS_AUTHENTICATION - (optional) this is the http basic authentication username:password, it is required to be set if the ZIM file download is behind authentication. This has to use the format: "my_user:secret_password".
 
 License
 -------

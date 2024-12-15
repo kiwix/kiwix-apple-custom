@@ -8,7 +8,7 @@
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_search_snippet": false,
     "settings_show_external_link_option": false,
-    "zim_auth": "DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION",
+    "zim_auth": "HTTP_BASIC_ACCESS_AUTHENTICATION",
     "zim_url": "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2023-12-15.zim",
     "build_number": 3
 }

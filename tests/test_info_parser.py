@@ -69,7 +69,7 @@ class InfoParserTest(unittest.TestCase):
 
     def test_auth_value(self):
         self.assertEqual(self.parser.download_auth(), os.getenv(
-            "DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION"))
+            "HTTP_BASIC_ACCESS_AUTHENTICATION"))
 
 
 if __name__ == '__main__':
