@@ -30,7 +30,7 @@ existing one if you need to create a new custom app.
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
-- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L)
+- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L). You can find your team id in the upper right corner of the screen (after you login to) your [Apple Developer Account](https://developer.apple.com/account/resources/certificates/list).
 - `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
@@ -87,14 +87,17 @@ Where the:
 
 Note: Both iOS and macOS applications are created from the same source code and are versioned and released together.
 
-# Release from an external Apple Account (non kiwix)
+# Release from an external Apple Account (non Kiwix)
 In order to use a different Apple Account for your app, further setup is required.
-**PLEASE NOTE: the values for the below keys contain secret values, do not send them publicly to GitHub tickets, or any publicly available space.** These secrets need to be sent over e-mail or via other Private Message solution.
-
 ## Create the Application on Apple Developer
 You need to create a new App on your Apple Developer account, please tick both iOS and macOS when creating it. Take note of the bundleID you pick for your application, that should be put into info.json (see above). Additionally each team (Apple Developer Account) has a unique development team ID, this should be also put into the info.json file for your brand.
 
-A dedicated GitHub environment will be created for you, where your secrets will be kept.
+
+## Storing secrets in GitHub
+A dedicated GitHub environment will be created for your brand, where your secrets will be kept.
+
+> [!NOTE]
+> **The values for the below keys contain secret values, do not send them publicly to GitHub tickets, or any publicly available space.** These secrets need to be sent over e-mail or via other Private Message solution.
 
 ## Certificates
 These certificates need to be created one by one [under your Apple Developer Account](https://developer.apple.com/account/resources/certificates/list):
