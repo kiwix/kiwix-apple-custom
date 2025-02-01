@@ -83,7 +83,7 @@ jobs:
           ls -la
 
 
-      - name: Set up scheme, version, build_number from files
+      - name: Set up scheme, version, build_number, and team-id from files
         run: |
           # move the checked out github actions to root folder:
           mv apple/.github/ .
@@ -93,6 +93,9 @@ jobs:
 
           VERSION=$(<./apple/custom/.version_number)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+          TEAM_ID=$(<./apple/custom/.team_id)
+          echo "TEAM_ID=$TEAM_ID" >> $GITHUB_ENV
 
       # taken from: kiwix/kiwix-apple .github/workflows/cd.yml
       - name: Set up variables for build
@@ -159,14 +162,14 @@ jobs:
         env:
           APPLE_SIGNING_ALTOOL_USERNAME: ${{ secrets.APPLE_SIGNING_ALTOOL_USERNAME }}
           APPLE_SIGNING_ALTOOL_PASSWORD: ${{ secrets.APPLE_SIGNING_ALTOOL_PASSWORD }}
-          APPLE_SIGNING_TEAM: ${{ secrets.APPLE_SIGNING_TEAM }}
+          TEAM_ID: ${{ env.TEAM_ID }}
         run: |
           security find-identity -v $KEYCHAIN
           security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
           xcrun notarytool store-credentials \
               --apple-id "${APPLE_SIGNING_ALTOOL_USERNAME}" \
               --password "${APPLE_SIGNING_ALTOOL_PASSWORD}" \
-              --team-id "${APPLE_SIGNING_TEAM}" \
+              --team-id "${TEAM_ID}" \
               --validate \
               --keychain $KEYCHAIN \
               $KEYCHAIN_PROFILE
