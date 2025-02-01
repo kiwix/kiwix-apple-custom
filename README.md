@@ -103,7 +103,7 @@ A dedicated GitHub environment will be created for your brand, where your secret
 These certificates need to be created one by one [under your Apple Developer Account](https://developer.apple.com/account/resources/certificates/list):
 - "Apple Development - Sign development versions of your iOS, iPadOS, macOS, tvOS, watchOS, and visionOS apps."
 - "Apple Distribution - Sign your iOS, iPadOS, macOS, tvOS, watchOS, and visionOS apps for release testing using Ad Hoc distribution or for submission to App Store Connect."
-- "Developer ID Application - This certificate is used to code sign your app for distribution outside of the Mac App Store Connect."
+- "Developer ID Application - This certificate is used to code sign your app for distribution outside of the Mac App Store."
 ### Download and export your certificates:
 - The automated build process, require your certifates to be in .p12 format. Once you have created the above certificates, you can download them to a mac, and export them using the .p12 format, following [Apple guide on this](https://help.apple.com/xcode/mac/current/#/dev154b28f09).
 - During export you need to set a password protecting the certificate itself, please take note of it.
