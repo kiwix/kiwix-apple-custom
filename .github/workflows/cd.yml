@@ -87,13 +87,19 @@ jobs:
         run: |
           # move the checked out github actions to root folder:
           mv apple/.github/ .
+          
+          # each of these dot files below contain a single value
+          # and are created by: src/tag_validator.py
 
+          # brand_name comes from the valid tag
           BRAND=$(<./apple/custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
 
+          # version comes from the tag
           VERSION=$(<./apple/custom/.version_number)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+          # team_id comes from the brand's json file
           TEAM_ID=$(<./apple/custom/.team_id)
           echo "TEAM_ID=$TEAM_ID" >> $GITHUB_ENV
 
