@@ -99,7 +99,7 @@ Apple recommends a reverse domain name, so something like: org.kiwix.app (adjust
 Please leave the "explicit option", and not use a "wildcard one".
 For the app itself, please select both iOS and macOS platforms. We support both of those.
 
-The question marks are really helpfully explain how the values from each input field of the from will be used later on.
+The question marks helpfully explain how the values from each input field of the from will be used later on.
 You can leave the "full access" turned on, it will allow each team member (of the developer account) to use the app,
 so you don't need to invite them one by one (if that's easier for you that is).
 
