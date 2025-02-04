@@ -2,12 +2,12 @@
     "about_app_url": "https://www.dwds.de",
     "about_text": "Für Schreibende, Lernende, Lehrende und Sprachinteressierte: Das Digitale Wörterbuch der deutschen Sprache (DWDS) ist das große Bedeutungswörterbuch des Deutschen der Gegenwart. Es bietet umfassende und wissenschaftlich verlässliche lexikalische Informationen, kostenlos und werbefrei.",
     "app_name": "DWDS",
-    "app_store_id": "id6473090365",
-    "development_team": "L7HWM3SP3L",
+    "app_store_id": "id6741328425",
+    "development_team": "Q2QUKNPZG9",
     "enforced_lang": "de",
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": false,
     "settings_show_search_snippet": false,
-    "zim_auth": "DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION",
+    "zim_auth": "HTTP_BASIC_ACCESS_AUTHENTICATION",
     "zim_url": "https://www.dwds.de/kiwix/f/dwds_de_dictionary_nopic_2024-11-15.zim"
 }

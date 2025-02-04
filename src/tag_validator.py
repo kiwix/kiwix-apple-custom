@@ -43,6 +43,7 @@ def _is_valid(tag):
         Path('.brand_name').write_text(f"{brand.name}")
         Path('.build_number').write_text(f"{version.build_number}")
         Path('.version_number').write_text(f"{version.semantic}")
+        Path('.team_id').write_text(f"{parser.development_team_id}")
         
         # required as an output, we can pipe on:
         print(f"{brand.name} {version.build_number}")

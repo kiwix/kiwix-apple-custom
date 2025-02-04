@@ -29,8 +29,8 @@ existing one if you need to create a new custom app.
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. (Eg. "https://www.dwds.de")
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
 - `app_name` - Name of the app, as it will appear on device, and in App Store
-- `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it.
-- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L)
+- `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. You can find this by visiting: https://appstoreconnect.apple.com/apps/, selecting your app, and go to General tab (on the left), and it will be under AppleID. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it. it is a sequence of numbers usually, although for the json file we need to append "id" to it. Eg.: "1281693200" becomes "id1281693200".
+- `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L). You can find your team id in the upper right corner of the screen (after you login to) your [Apple Developer Account](https://developer.apple.com/account/resources/certificates/list).
 - `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
@@ -86,6 +86,126 @@ Where the:
 - `optional-part` - any value can be added here, it is only indicative, eg for different attempts to release the same app version, such as in the case of a failed build restart, eg: `dwds_2023.12.90_testing01`, `dwds_2023.12.90_testing02`. The value of the optional part is ignored in the build process, it is only an indicator, we can use to distinguish between attempts to release the very same version of an app.
 
 Note: Both iOS and macOS applications are created from the same source code and are versioned and released together.
+
+# Release from an external Apple Account (non Kiwix)
+In order to use a different Apple Account for your app, further setup is required.
+
+## Creating the App and the Bundle ID for it
+First you need to register a bundleID, which is a unique identifier for the app, here:
+https://developer.apple.com/account/resources/identifiers/bundleId/add
+
+Apple recommends a reverse domain name, so something like: org.kiwix.app (adjusted to your domain accordingly)
+
+Please leave the "explicit option", and not use a "wildcard one".
+For the app itself, please select both iOS and macOS platforms. We support both of those.
+
+The question marks helpfully explain how the values from each input field of the from will be used later on.
+You can leave the "full access" turned on, it will allow each team member (of the developer account) to use the app,
+so you don't need to invite them one by one (if that's easier for you that is).
+
+Take note of the bundleID you pick for your application, that should be put into info.json (see above).
+
+## TEAM ID:
+Take note of your Apple Team ID, this should be also put into the info.json file for your brand. 
+The team ID can be found at the bottom of the following page (after signing), under "Membership details":
+https://developer.apple.com/account
+
+## Storing secrets in GitHub
+A dedicated GitHub environment will be created for your brand, where your secrets will be kept.
+
+> [!NOTE]
+> **The values for the below keys contain secret values, do not send them publicly to GitHub tickets, or any publicly available space.** These secrets need to be sent over e-mail or via other Private Message solution.
+
+## Create the development certificate:
+You need to create a development certificate for the app here:
+https://developer.apple.com/account/resources/certificates/list
+- press create a certificate
+- select the first option: Apple Development
+- press continue (upper right corner)
+- Upload a Certificate Signing Request, to create it you need to follow these steps:
+https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request
+    
+    > (Note on macOS Sequoia the KeyChain app is not visible by default, but can be found it under: `/System/Library/CoreServices/Applications/Keychain Access.app`, you can create a link to it, that you can add to your `Application` folder. Open Finder, from the top menu select Go -> Go To Folder, copy paste in: "/System/Library/CoreServices/Applications/". To create a link to the "KeyChain Access.app", have it selected and right click on it, and from the hover menu, select: "Make Alias", this will create a link to it on your Desktop. Optionally you can move this link - by draging it - to your Application folder, if you want.)
+
+    For the common name you can use something like: "Kiwix Development" (*adjusted to your app name accordingly)
+    Note: You don't need to do the openssl command-line steps here, only the "Keychain Access" ones.
+    For convenience, when saving the .certSigningRequest file you can rename it to something like: "Kiwix_Development.certSigningRequest".
+
+    Once it's approved, you should download your .cer file to your computer, and keep it safe (also you can rename the .cer file to something more meaningful eg: Kiwix_Development.cer).
+
+    You can go back to: "All certificates"
+
+## Create a distribution certificate:
+
+Similarly to the former step, start here:
+https://developer.apple.com/account/resources/certificates/list
+- press create a certificate
+- select the second option: Apple Distribution
+- again you need to create a new Certificate Signing Request (a seperate one), following the same steps (see above):
+https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request
+
+For the common name you can use something like: "Kiwix Distribution" (*adjusted to your app name accordingly)
+And as above you can rename the files in this process accrodingly eg to: "Kiwix_Distribution.certSigningRequest", and "Kiwix_Distribution.cer"
+
+## Export the above certificates to .p12 files. 
+By opening those .cer files on your mac (both Kiwix_Development.cer and Kiwix_Distribution.cer), they will be added to your system keychain, and they will appear in the Keychain App (see above). For each of those - in the Keychain App - you should right click on the certificate, and select "Export ...", and leave the file format on .p12.
+In the export process, you need to choose a password for the exported item (you can use password assistant, by clicking on the key icon). 
+Please take a note of these password for both certificates (it is recommended to have a different pass for development and distribution).
+(In the end, the export process will ask for your system user password as well to finish this process.)
+
+The content of the .p12 files and the associated passwords, should be added to GitHub Secrets, under the following keys:
+- APPLE_DEVELOPMENT_SIGNING_CERTIFICATE
+- APPLE_DEVELOPMENT_SIGNING_P12_PASSWORD
+- APPLE_DISTRIBUTION_SIGNING_CERTIFICATE
+- APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD
+
+## Creating an App Store Connect API Key
+
+- Create a new App Store Connect API Key in the [Users and Access page](https://appstoreconnect.apple.com/access/users)
+
+    - For more info, go to the [App Store Connect API Docs](https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api)
+
+    - Open the `Integrations` tab, select `App Store Connect API`, and create a new "Team Key" using the + button
+    - Note that if you can't see the App Store Connect API tab, this means you don't have permission yet. Please refer to the docs above to know how to get this permission
+
+    - Give your API Key an appropriate role (Account Holder) for the task at hand. You can read more about roles in [Permissions in App Store Connect](https://developer.apple.com/support/roles/)
+
+    - Note the Issuer ID as you will need it for the configuration steps below
+
+- Download the newly created API Key file (.p8)
+    - This file cannot be downloaded again after the page has been refreshed
+
+From this step you will have the values for the following GitHub secret keys:
+
+- APPLE_STORE_AUTH_KEY
+- APPLE_STORE_AUTH_KEY_ID
+- APPLE_STORE_AUTH_KEY_ISSUER_ID
+
+## Create a Development Signing Identity (optional)
+
+If you whish to have the macOS application distributed outside of the AppStore, it needs to be signed with yet another type of certificate, called Developer Signing Identity.
+It can be obtained from App Store Connect with an Account Holder Account here:
+    https://developer.apple.com/account/resources/certificates/add
+
+Select `Developer ID Application` and proceed.
+    
+Once you have the certificate file, it should be exported into a .p12 format, as above (Export those certificates as .p12 files.)
+
+These will be stored under Github Secrets:
+- APPLE_DEVELOPER_ID_SIGNING_CERTIFICATE
+- APPLE_DEVELOPER_ID_SIGNING_P12_PASSWORD
+
+## Create an app-specific password for notary tool (optional)
+
+If you whish to have the macOS application distributed outside of the AppStore, it needs to verified by Apple, in a process called notarization. For this to happen, you need to provide your App Store Connect credentials (the you use to sign into developer.apple.com). Instead of giving away your very own user name and password, you can create an app-specific password for the notary tool, as described here:
+https://support.apple.com/en-us/102654
+
+These also goes to GitHub Secrets:
+- APPLE_SIGNING_ALTOOL_USERNAME
+- APPLE_SIGNING_ALTOOL_PASSWORD
+
+## ZIM file behind http authentication (optional)
+- HTTP_BASIC_ACCESS_AUTHENTICATION - (optional) this is the http basic authentication username:password, it is required to be set if the ZIM file to be downloaded during automated build is behind authentication. This is using the format: "my_user:secret_password".
 
 License
 -------

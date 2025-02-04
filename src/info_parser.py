@@ -42,6 +42,7 @@ class InfoParser:
             self.data[JSON_KEY_ZIM_URL])
         self.version = Version.from_file_name(file_name=self.zim_file_name,
                                               build_number=build_number)
+        self.development_team_id = self._development_team()
 
     def create_plist(self, based_on_plist_file):
         with based_on_plist_file.open(mode="rb") as file:

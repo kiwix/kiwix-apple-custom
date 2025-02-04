@@ -24,6 +24,7 @@ jobs:
           - platform: iOS
             xcode_extra: -sdk iphoneos
     runs-on: macos-13
+    environment: ${{ contains(github.ref, 'dwds') && 'dwds' || 'internal' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -59,7 +60,7 @@ jobs:
 
       - name: Generate project based on tag
         env:
-          DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.DWDS_HTTP_BASIC_ACCESS_AUTHENTICATION }}
+          HTTP_BASIC_ACCESS_AUTHENTICATION: ${{ secrets.HTTP_BASIC_ACCESS_AUTHENTICATION }}
         run:
           |
           # move the custom files under the same folder as the kiwix repo
@@ -82,16 +83,25 @@ jobs:
           ls -la
 
 
-      - name: Set up scheme, version, build_number from files
+      - name: Set up scheme, version, build_number, and team-id from files
         run: |
           # move the checked out github actions to root folder:
           mv apple/.github/ .
+          
+          # each of these dot files below contain a single value
+          # and are created by: src/tag_validator.py
 
+          # brand_name comes from the valid tag
           BRAND=$(<./apple/custom/.brand_name)
           echo "BRAND=$BRAND" >> $GITHUB_ENV
 
+          # version comes from the tag
           VERSION=$(<./apple/custom/.version_number)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+          # team_id comes from the brand's json file
+          TEAM_ID=$(<./apple/custom/.team_id)
+          echo "TEAM_ID=$TEAM_ID" >> $GITHUB_ENV
 
       # taken from: kiwix/kiwix-apple .github/workflows/cd.yml
       - name: Set up variables for build
@@ -120,11 +130,9 @@ jobs:
         env:
           APPLE_DISTRIBUTION_SIGNING_CERTIFICATE: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_CERTIFICATE }}
           APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD }}
-          APPLE_DEVELOPMENT_SIGNING_IDENTITY: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_IDENTITY }}
         run: |
           echo "SIGNING_CERTIFICATE=${APPLE_DISTRIBUTION_SIGNING_CERTIFICATE}" >> "$GITHUB_ENV"
           echo "SIGNING_CERTIFICATE_P12_PASSWORD=${APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD}" >> "$GITHUB_ENV"
-          echo "SIGNING_IDENTITY=${APPLE_DEVELOPMENT_SIGNING_IDENTITY}" >> "$GITHUB_ENV"
 
       - name: Add Apple Store Key
         env:
@@ -152,23 +160,6 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
           KEYCHAIN_PROFILE: ${{ env.KEYCHAIN_PROFILE }}
           EXTRA_XCODEBUILD: ${{ env.EXTRA_XCODEBUILD }}
-
-      - name: Add altool credentials to Keychain
-        shell: bash
-        env:
-          APPLE_SIGNING_ALTOOL_USERNAME: ${{ secrets.APPLE_SIGNING_ALTOOL_USERNAME }}
-          APPLE_SIGNING_ALTOOL_PASSWORD: ${{ secrets.APPLE_SIGNING_ALTOOL_PASSWORD }}
-          APPLE_SIGNING_TEAM: ${{ secrets.APPLE_SIGNING_TEAM }}
-        run: |
-          security find-identity -v $KEYCHAIN
-          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
-          xcrun notarytool store-credentials \
-              --apple-id "${APPLE_SIGNING_ALTOOL_USERNAME}" \
-              --password "${APPLE_SIGNING_ALTOOL_PASSWORD}" \
-              --team-id "${APPLE_SIGNING_TEAM}" \
-              --validate \
-              --keychain $KEYCHAIN \
-              $KEYCHAIN_PROFILE
 
       - name: Prepare export for ${{ env.EXPORT_METHOD }}
         run: |
