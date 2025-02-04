@@ -124,11 +124,9 @@ jobs:
         env:
           APPLE_DISTRIBUTION_SIGNING_CERTIFICATE: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_CERTIFICATE }}
           APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD }}
-          APPLE_DEVELOPMENT_SIGNING_IDENTITY: ${{ secrets.APPLE_DEVELOPMENT_SIGNING_IDENTITY }}
         run: |
           echo "SIGNING_CERTIFICATE=${APPLE_DISTRIBUTION_SIGNING_CERTIFICATE}" >> "$GITHUB_ENV"
           echo "SIGNING_CERTIFICATE_P12_PASSWORD=${APPLE_DISTRIBUTION_SIGNING_P12_PASSWORD}" >> "$GITHUB_ENV"
-          echo "SIGNING_IDENTITY=${APPLE_DEVELOPMENT_SIGNING_IDENTITY}" >> "$GITHUB_ENV"
 
       - name: Add Apple Store Key
         env:
@@ -156,23 +154,6 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
           KEYCHAIN_PROFILE: ${{ env.KEYCHAIN_PROFILE }}
           EXTRA_XCODEBUILD: ${{ env.EXTRA_XCODEBUILD }}
-
-      - name: Add altool credentials to Keychain
-        shell: bash
-        env:
-          APPLE_SIGNING_ALTOOL_USERNAME: ${{ secrets.APPLE_SIGNING_ALTOOL_USERNAME }}
-          APPLE_SIGNING_ALTOOL_PASSWORD: ${{ secrets.APPLE_SIGNING_ALTOOL_PASSWORD }}
-          TEAM_ID: ${{ env.TEAM_ID }}
-        run: |
-          security find-identity -v $KEYCHAIN
-          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN
-          xcrun notarytool store-credentials \
-              --apple-id "${APPLE_SIGNING_ALTOOL_USERNAME}" \
-              --password "${APPLE_SIGNING_ALTOOL_PASSWORD}" \
-              --team-id "${TEAM_ID}" \
-              --validate \
-              --keychain $KEYCHAIN \
-              $KEYCHAIN_PROFILE
 
       - name: Prepare export for ${{ env.EXPORT_METHOD }}
         run: |
