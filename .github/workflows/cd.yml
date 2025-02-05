@@ -10,7 +10,6 @@ on:
 env:
   KEYCHAIN: /Users/runner/build.keychain-db
   KEYCHAIN_PASSWORD: mysecretpassword
-  KEYCHAIN_PROFILE: build-profile
   SSH_KEY: /tmp/id_rsa
   APPLE_STORE_AUTH_KEY_PATH: /tmp/authkey.p8
 
@@ -158,7 +157,6 @@ jobs:
           DEPLOYMENT_SIGNING_CERTIFICATE_P12_PASSWORD: ${{ env.SIGNING_CERTIFICATE_P12_PASSWORD }}
           KEYCHAIN: ${{ env.KEYCHAIN }}
           KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
-          KEYCHAIN_PROFILE: ${{ env.KEYCHAIN_PROFILE }}
           EXTRA_XCODEBUILD: ${{ env.EXTRA_XCODEBUILD }}
 
       - name: Prepare export for ${{ env.EXPORT_METHOD }}
