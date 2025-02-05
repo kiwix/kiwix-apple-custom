@@ -3,6 +3,7 @@
     "about_text": "Für Schreibende, Lernende, Lehrende und Sprachinteressierte: Das Digitale Wörterbuch der deutschen Sprache (DWDS) ist das große Bedeutungswörterbuch des Deutschen der Gegenwart. Es bietet umfassende und wissenschaftlich verlässliche lexikalische Informationen, kostenlos und werbefrei.",
     "app_name": "DWDS",
     "app_store_id": "id6741328425",
+    "bundle_id": "de.dwds.app",
     "development_team": "Q2QUKNPZG9",
     "enforced_lang": "de",
     "settings_default_external_link_to": "alwaysLoad",
