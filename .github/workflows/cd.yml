@@ -44,7 +44,7 @@ jobs:
       - name: Find latest stable release of kiwix-apple, unless triggering tag indicates develop branch
         if: ${{ !contains(github.ref, '_dev') }}
         id: kiwix_latest_release
-        uses: joutvhu/get-release@v1.0.3
+        uses: joutvhu/get-release@9a8271732adc3299a22f8ad09b0a67eb3aa836ac #v1.0.3
         with:
           latest: true
           prerelease: false
