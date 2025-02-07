@@ -87,6 +87,9 @@ Where the:
 
 Note: Both iOS and macOS applications are created from the same source code and are versioned and released together.
 
+Currently the [latest stable release of the Kiwix Apple repository](https://github.com/kiwix/kiwix-apple/releases) is checked out to form a custom app release.
+If needed, the development branch of Kiwix can also be used, by adding "_dev" to the release tag, it can be added somewhere at the end of the tag, as all other tag validations (described above) still need to be met, eg: "dwds_2023.12.10_dev_01".
+
 # Release from an external Apple Account (non Kiwix)
 In order to use a different Apple Account for your app, further setup is required.
 
