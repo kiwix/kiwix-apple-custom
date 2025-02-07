@@ -184,6 +184,18 @@ From this step you will have the values for the following GitHub secret keys:
 - APPLE_STORE_AUTH_KEY_ID
 - APPLE_STORE_AUTH_KEY_ISSUER_ID
 
+## Add test devices 
+In order to test the app, and in order to even upload it to TestFlight, physical devices needs to be registered on the Apple Developer Account.
+It can be done either via XCode, or via the AppStore Connect, as described here:
+https://developer.apple.com/help/account/register-devices/register-a-single-device/
+
+## Create a provisioning profile
+Uploading builds to TestFlight requires at least one provision profile to be added. 
+It should contain the development certificate created 
+earlier (see above), and should also include the test devices (see above).
+Here is the detailed Apple documentation on how to create a new development provisitioning profile:
+https://developer.apple.com/help/account/manage-provisioning-profiles/create-a-development-provisioning-profile
+
 ## Create a Development Signing Identity (optional)
 
 If you whish to have the macOS application distributed outside of the AppStore, it needs to be signed with yet another type of certificate, called Developer Signing Identity.
