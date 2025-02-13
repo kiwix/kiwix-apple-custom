@@ -67,9 +67,6 @@ jobs:
           mv custom/ apple/
           cd apple/custom
 
-          # make a custom copy of the Info.plist file
-          cp ../Support/Info.plist Custom.plist
-
           python src/tag_validator.py ${{ steps.vars.outputs.tag }}
           python src/generate_and_download.py
 
