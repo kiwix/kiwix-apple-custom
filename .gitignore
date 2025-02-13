@@ -2,6 +2,7 @@
 .vscode
 **/.DS_Store
 **/*.plist
+!Custom.plist
 custom_project_test.yml
 
 # temp files for build
