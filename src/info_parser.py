@@ -8,12 +8,16 @@ import os
 import shutil
 import plistlib
 
+PLIST_KEY_BACKGROUND_MODES = "UIBackgroundModes"
+PLIST_KEY_LIVE_ACTIVITY = "NSSupportsLiveActivities"
+PLIST_KEY_LIVE_ACTIVITY_FREQUENT = "NSSupportsLiveActivitiesFrequentUpdates"
 JSON_KEY_ZIM_URL = "zim_url"
 JSON_KEY_AUTH = "zim_auth"
 JSON_BUNDLE_ID = "bundle_id"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 JSON_KEY_DEVELOPMENT_TEAM = "development_team"
+JSON_KEY_USES_AUDIO = "uses_audio"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
 JSON_TO_PLIST_MAPPING = {
     "app_store_id": "APP_STORE_ID",
@@ -43,10 +47,18 @@ class InfoParser:
         self.version = Version.from_file_name(file_name=self.zim_file_name,
                                               build_number=build_number)
         self.development_team_id = self._development_team()
+        self.uses_audio = self.data[JSON_KEY_USES_AUDIO] == True
 
     def create_plist(self, based_on_plist_file):
         with based_on_plist_file.open(mode="rb") as file:
             plist = plistlib.load(file)
+            # handle Background mode audio:
+            if self.uses_audio == False:
+                plist[PLIST_KEY_BACKGROUND_MODES].remove("audio")
+            # remove live activity for custom apps:
+            plist.pop(PLIST_KEY_LIVE_ACTIVITY, None)
+            plist.pop(PLIST_KEY_LIVE_ACTIVITY_FREQUENT, None)
+            # replace plist values according to custom json:
             for keyValues in self._plist_key_values():
                 for key in keyValues:
                     plist[key] = keyValues[key]
