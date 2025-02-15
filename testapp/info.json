@@ -8,5 +8,6 @@
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
+    "uses_audio": true,
     "zim_url": "https://dev.kiwix.org/apple/custom/test/wikipedia_en_ray_charles_maxi_2023-12.zim"
 }

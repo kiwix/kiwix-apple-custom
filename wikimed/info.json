@@ -9,5 +9,6 @@
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
+    "uses_audio": true,
     "zim_url": "https://mirror.download.kiwix.org/zim/.hidden/custom_apps/mdwiki_en_all-app_maxi_2024-03.zim"
 }
