@@ -12,3 +12,8 @@ custom_project_test.yml
 # this is CI specific
 Brewfile_CI
 Brewfile_CI.lock.json
+
+# python env specific
+bin
+lib
+pyvenv.cfg
