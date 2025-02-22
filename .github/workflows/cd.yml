@@ -22,7 +22,7 @@ jobs:
           - platform: macOS
           - platform: iOS
             xcode_extra: -sdk iphoneos
-    runs-on: macos-13
+    runs-on: macos-14
     environment: ${{ contains(github.ref, 'dwds') && 'dwds' || 'internal' }}
     steps:
       - name: Checkout code
