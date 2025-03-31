@@ -66,6 +66,10 @@ jobs:
           cd apple
           cat Brewfile | grep -v -e pre-commit > Brewfile_CI
           brew bundle --force --file Brewfile_CI
+          cp Support/CoreKiwix.modulemap CoreKiwix.xcframework/ios-arm64/Headers/module.modulemap
+          cp Support/CoreKiwix.modulemap CoreKiwix.xcframework/ios-arm64_x86_64-simulator/Headers/module.modulemap
+          cp Support/CoreKiwix.modulemap CoreKiwix.xcframework/macos-arm64_x86_64/Headers/module.modulemap
+          python localizations.py generate
           cd ..
 
       - name: Generate project based on tag
