@@ -5,10 +5,9 @@
     "app_store_id": "id6744251352",
     "bundle_id": "org.kiwix.phet",
     "development_team": "L7HWM3SP3L",
-    "enforced_lang": "en",
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
     "uses_audio": true,
-    "zim_url": "https://mirror.download.kiwix.org/zim/phet/phet_mul_all_2025-03.zim"
+    "zim_url": "http://localhost:8000/phet_mul_all_2025-03.zim"
 }
