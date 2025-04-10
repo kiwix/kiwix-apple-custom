@@ -10,5 +10,5 @@
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
     "uses_audio": false,
-    "zim_url": "https://mirror.download.kiwix.org/zim/phet/phet_mul_all_2025-03.zim"
+    "zim_url": "http://localhost:8000/phet_mul_all_2025-03.zim"
 }
