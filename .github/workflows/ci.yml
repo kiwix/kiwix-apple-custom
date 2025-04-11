@@ -31,9 +31,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: custom
+          fetch-depth: 0
 
       - name: Install Python dependencies for custom project generation
-        run: python -m pip install pyyaml
+        run: |
+          python -m pip install pyyaml
+          python -m pip install requests
+
+      - name: Get changed info.json files and validate them
+        working-directory: custom
+        run: |
+          git diff origin/main --name-only | grep info\\.json | xargs python src/validate_info_json.py $1
 
       - name: Test python scripts
         working-directory: custom
