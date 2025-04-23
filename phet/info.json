@@ -6,6 +6,7 @@
     "bundle_id": "org.kiwix.phet",
     "development_team": "L7HWM3SP3L",
     "disable_immersive_reading": true,
+    "hide_random_button": true,
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
