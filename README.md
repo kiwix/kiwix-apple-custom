@@ -55,6 +55,8 @@ These key / values can be, but do not need to be included in the `info.json` fil
 
 - `disable_immersive_reading` - optional (true| false) - if set to true, it will disable the immersive reading functionality on iOS, which is hiding the top / bottom nav bars while scrolling the web content. If the ZIM content is specific to a full screen experience (eg: PhET) it might be better to turn this feature off, so that the user navigation is not blocked (eg navigating back, search, bookmarks ect).
 
+- `hide_random_button` - optional (true | false) - if set to true, it will hide the random article button in the navigation bar and on macOS within the right click context menu. By default (if omitted) it's false.
+
 - `zim_auth` - (optional) this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
 
 ## XCAssets file
