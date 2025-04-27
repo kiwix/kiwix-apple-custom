@@ -19,8 +19,6 @@ JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 JSON_KEY_DEVELOPMENT_TEAM = "development_team"
 JSON_KEY_USES_AUDIO = "uses_audio"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
-JSON_KEY_HIDE_RANDOM_BUTTON = "hide_random_button"
-HIDE_RANDOM_BUTTON_KEY = "HIDE_RANDOM_BUTTON"
 JSON_TO_PLIST_MAPPING = {
     "app_store_id": "APP_STORE_ID",
     "about_app_url": "CUSTOM_ABOUT_WEBSITE",
@@ -28,9 +26,13 @@ JSON_TO_PLIST_MAPPING = {
     "settings_default_external_link_to": "SETTINGS_DEFAULT_EXTERNAL_LINK_TO",
     "settings_show_search_snippet": "SETTINGS_SHOW_SEARCH_SNIPPET",
     "disable_immersive_reading": "DISABLE_IMMERSIVE_READING",
-    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION"
+    "settings_show_external_link_option": "SETTINGS_SHOW_EXTERNAL_LINK_OPTION",
+    "hide_random_button": "HIDE_RANDOM_BUTTON",
+    "hide_find_in_page": "HIDE_FIND_IN_PAGE",
+    "hide_share_button": "HIDE_SHARE_BUTTON",
+    "hide_toc_button": "HIDE_TOC_BUTTON",
+    "hide_print_button": "HIDE_PRINT_BUTTON",
 }
-
 
 class InfoParser:
 
@@ -58,8 +60,6 @@ class InfoParser:
             # handle Background mode audio:
             if self.uses_audio == False:
                 plist[PLIST_KEY_BACKGROUND_MODES].remove("audio")
-            if self._should_hide_random_button():
-                plist[HIDE_RANDOM_BUTTON_KEY] = True
             
             # remove live activity for custom apps:
             plist.pop(PLIST_KEY_LIVE_ACTIVITY, None)
@@ -174,9 +174,3 @@ class InfoParser:
                     lang_file, Path().cwd().parent/"custom"/self.brand_name, dirs_exist_ok=True)
             # exclude all other languages under Support/*.lproj
             return ["**/*.lproj"]
-        
-    def _should_hide_random_button(self):
-        if JSON_KEY_HIDE_RANDOM_BUTTON in self.data:
-            return self.data[JSON_KEY_HIDE_RANDOM_BUTTON] == True
-        else:
-            return False

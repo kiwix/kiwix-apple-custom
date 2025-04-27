@@ -57,6 +57,14 @@ These key / values can be, but do not need to be included in the `info.json` fil
 
 - `hide_random_button` - optional (true | false) - if set to true, it will hide the random article button in the navigation bar and on macOS within the right click context menu. By default (if omitted) it's false.
 
+- `hide_find_in_page` - optional (true | false) - if set to true, it hides the magnifying glass icon, that can be used to search the content of the currently loaded webpage. By default (if omitted) it's false.
+
+- `hide_share_button` - optional (true | false) - if set to true, it hides the share button. Sharing is about a PDF export of the current webpage. By default (if omitted) it's false.
+
+- `hide_toc_button` - optional (true | false) - if set to true, it hides the table of contents button. TOC is for currently loaded webpages, created by parsing their h1-n tags. By default (if omitted) it's false.
+
+- `hide_print_button` - optional (true | false) - if set to true, it hides the print button available on macOS for currently loaded webpages. By default (if omitted) it's false.
+
 - `zim_auth` - (optional) this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
 
 ## XCAssets file
