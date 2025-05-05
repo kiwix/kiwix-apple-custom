@@ -235,6 +235,37 @@ These also goes to GitHub Secrets:
 ## ZIM file behind http authentication (optional)
 - HTTP_BASIC_ACCESS_AUTHENTICATION - (optional) this is the http basic authentication username:password, it is required to be set if the ZIM file to be downloaded during automated build is behind authentication. This is using the format: "my_user:secret_password".
 
+# Screen-shots for App Store Releases
+
+## iOS
+
+The easiest way to take consistent screenshots is by using Xcode's iOS Simulator:
+
+Apple occasionally updates the required screen sizes, so make sure you're using a supported device in the simulator.
+To save a screenshot, simply press Command (⌘) + S.
+To toggle dark mode (night mode) in the simulator, press Command (⌘) + A.
+
+## macOS
+
+This approach is a bit less straightforward, since the screenshot must be taken at a specific size.
+The easiest way to ensure this is by using the Automator app to resize the application window before taking the screenshot.
+
+### Apple script to resize the window
+You can use the following AppleScript to resize a specific application window by its name (e.g., "phet"):
+```
+tell application "System Events" to tell process "phet"
+	set position of window 1 to {0, 0}
+	set size of window 1 to {1280, 800}
+end tell
+```
+
+### Taking the screenshot
+To take a window screenshot without the drop shadow on macOS:
+- Press Shift + Command (⌘) + 4
+- Press the Spacebar
+- Hold down the Option (Alt) key, then click on the window you want to capture.
+This captures a transparent screenshot of the window without the shadow, producing an image at the exact size of the window.
+
 License
 -------
 
