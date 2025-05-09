@@ -28,14 +28,14 @@ existing one if you need to create a new custom app.
 ### The required fields are:
 - `about_app_url` - this is an external link that is placed in the "About section" of the application. (Eg. "https://www.dwds.de")
 - `about_text` - this is a custom text that is placed in the "About section" describing what the application is about. It is not supporting html tags, but new lines can be added with '\n'.
-- `app_name` - Name of the app, as it will appear on device, and in App Store
+- `app_name` - Name of the app, as it will appear on device under the icon (the [CFBundleDisplayName](https://developer.apple.com/documentation/bundleresources/information-property-list/cfbundledisplayname)).
 - `app_store_id` - this should to be taken from the developer.apple.com, where the application release is prepared. Note you can use the app_store_id even if the app is not yet released. You can find this by visiting: https://appstoreconnect.apple.com/apps/, selecting your app, and go to General tab (on the left), and it will be under AppleID. The id is used within the app in the "Rate the app" section, so users can be redirected to a specific app in the App Store, to rate it. it is a sequence of numbers usually, although for the json file we need to append "id" to it. Eg.: "1281693200" becomes "id1281693200".
 - `development_team` - this is the development team id used for the build, it can be found in the relevant Apple Development Account (for apps under the Kiwix organisation it will be the same value: L7HWM3SP3L). You can find your team id in the upper right corner of the screen (after you login to) your [Apple Developer Account](https://developer.apple.com/account/resources/certificates/list).
 - `enforced_lang` - ISO 639-1 language code (eg: en, de, he) if it is set, it will include only this language in the final app, meaning no other languages can be selected (on iOS) for the application UI. See the current list of supported languages [already translated in the main repo](https://github.com/kiwix/kiwix-apple/tree/main/Support). When using this option, make sure that [the translation coverage](https://translatewiki.net/wiki/Special:MessageGroupStats/kiwix-apple?group=kiwix-apple&messages=&suppressempty=1&x=D) is 100% for the enforced language.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
 
-- `settings_default_external_link_to` - this controls how external links (pointing to content on the web, that are not included in the zimfile) should be treated. It can take one of the following values: 
+- `settings_default_external_link_to` - this controls how external links (pointing to content on the web, that are not included in the zimfile) should be treated. It can take one of the following values:
     - **"alwaysLoad"**: meaning it will leave the app, and open the link in the system browser, without asking
     - **"alwaysAsk"**: it will ask the user in a pop-up, before opening any external links
     - **"neverLoad"**: it won't ask the user, and won't open any external links. This is handy  if the external links handling is already contained in the zimfile itself, and we don't want to trigger any system level behaviour.
@@ -122,7 +122,7 @@ so you don't need to invite them one by one (if that's easier for you that is).
 Take note of the bundleID you pick for your application, that should be put into info.json (see above).
 
 ## TEAM ID:
-Take note of your Apple Team ID, this should be also put into the info.json file for your brand. 
+Take note of your Apple Team ID, this should be also put into the info.json file for your brand.
 The team ID can be found at the bottom of the following page (after signing), under "Membership details":
 https://developer.apple.com/account
 
@@ -140,7 +140,7 @@ https://developer.apple.com/account/resources/certificates/list
 - press continue (upper right corner)
 - Upload a Certificate Signing Request, to create it you need to follow these steps:
 https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request
-    
+
     > (Note on macOS Sequoia the KeyChain app is not visible by default, but can be found it under: `/System/Library/CoreServices/Applications/Keychain Access.app`, you can create a link to it, that you can add to your `Application` folder. Open Finder, from the top menu select Go -> Go To Folder, copy paste in: "/System/Library/CoreServices/Applications/". To create a link to the "KeyChain Access.app", have it selected and right click on it, and from the hover menu, select: "Make Alias", this will create a link to it on your Desktop. Optionally you can move this link - by draging it - to your Application folder, if you want.)
 
     For the common name you can use something like: "Kiwix Development" (*adjusted to your app name accordingly)
@@ -163,9 +163,9 @@ https://developer.apple.com/help/account/create-certificates/create-a-certificat
 For the common name you can use something like: "Kiwix Distribution" (*adjusted to your app name accordingly)
 And as above you can rename the files in this process accrodingly eg to: "Kiwix_Distribution.certSigningRequest", and "Kiwix_Distribution.cer"
 
-## Export the above certificates to .p12 files. 
+## Export the above certificates to .p12 files.
 By opening those .cer files on your mac (both Kiwix_Development.cer and Kiwix_Distribution.cer), they will be added to your system keychain, and they will appear in the Keychain App (see above). For each of those - in the Keychain App - you should right click on the certificate, and select "Export ...", and leave the file format on .p12.
-In the export process, you need to choose a password for the exported item (you can use password assistant, by clicking on the key icon). 
+In the export process, you need to choose a password for the exported item (you can use password assistant, by clicking on the key icon).
 Please take a note of these password for both certificates (it is recommended to have a different pass for development and distribution).
 (In the end, the export process will ask for your system user password as well to finish this process.)
 
@@ -197,14 +197,14 @@ From this step you will have the values for the following GitHub secret keys:
 - APPLE_STORE_AUTH_KEY_ID
 - APPLE_STORE_AUTH_KEY_ISSUER_ID
 
-## Add test devices 
+## Add test devices
 In order to test the app, and in order to even upload it to TestFlight, physical devices needs to be registered on the Apple Developer Account.
 It can be done either via XCode, or via the AppStore Connect, as described here:
 https://developer.apple.com/help/account/register-devices/register-a-single-device/
 
 ## Create a provisioning profile
-Uploading builds to TestFlight requires at least one provision profile to be added. 
-It should contain the development certificate created 
+Uploading builds to TestFlight requires at least one provision profile to be added.
+It should contain the development certificate created
 earlier (see above), and should also include the test devices (see above).
 Here is the detailed Apple documentation on how to create a new development provisitioning profile:
 https://developer.apple.com/help/account/manage-provisioning-profiles/create-a-development-provisioning-profile
@@ -216,7 +216,7 @@ It can be obtained from App Store Connect with an Account Holder Account here:
     https://developer.apple.com/account/resources/certificates/add
 
 Select `Developer ID Application` and proceed.
-    
+
 Once you have the certificate file, it should be exported into a .p12 format, as above (Export those certificates as .p12 files.)
 
 These will be stored under Github Secrets:
