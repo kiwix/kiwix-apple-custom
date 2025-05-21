@@ -60,7 +60,7 @@ class InfoParser:
             # handle Background mode audio:
             if self.uses_audio == False:
                 plist[PLIST_KEY_BACKGROUND_MODES].remove("audio")
-            
+
             # remove live activity for custom apps:
             plist.pop(PLIST_KEY_LIVE_ACTIVITY, None)
             plist.pop(PLIST_KEY_LIVE_ACTIVITY_FREQUENT, None)
@@ -78,12 +78,13 @@ class InfoParser:
         dict = {
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
-                "MARKETING_VERSION": self.version.semantic, 
+                "MARKETING_VERSION": self.version.semantic,
                 "PRODUCT_BUNDLE_IDENTIFIER": self._bundle_id(),
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
                 "INFOPLIST_KEY_UILaunchStoryboardName": "SplashScreen.storyboard",
                 "DEVELOPMENT_LANGUAGE": self._dev_language(),
+                "PRODUCT_NAME": self._app_name(),
                 # without specifying DEVELOPMENT_LANGUAGE,
                 # the default value of it: English will be added to the list of
                 # selectable languages in iOS Settings,
@@ -121,7 +122,7 @@ class InfoParser:
             return os.getenv(auth_key)
         else:
             return None
-        
+
     def _bundle_id(self):
         if JSON_BUNDLE_ID in self.data:
             return self.data[JSON_BUNDLE_ID]
@@ -140,7 +141,7 @@ class InfoParser:
 
     def _app_name(self):
         return self.data[JSON_KEY_APP_NAME]
-    
+
     def _development_team(self):
         return self.data[JSON_KEY_DEVELOPMENT_TEAM]
 
