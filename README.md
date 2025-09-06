@@ -65,6 +65,8 @@ These key / values can be, but do not need to be included in the `info.json` fil
 
 - `hide_print_button` - optional (true | false) - if set to true, it hides the print button available on macOS for currently loaded webpages. By default (if omitted) it's false.
 
+- `zim_recipe` - optional (url) - only informative and is only to help people to check more info on the ZIM, and if there is a new one available
+
 - `zim_auth` - (optional) this is needed if standard http authentication is required to download the ZIM file. This should be set to **an environment variable name**, which will be resolved during build time. Make sure that the environment variable itself is set up properly before running the build process. **Do not place any credentials directly here, it's not safe, and won't work.**
 
 ## XCAssets file
