@@ -32,6 +32,7 @@ JSON_TO_PLIST_MAPPING = {
     "hide_share_button": "HIDE_SHARE_BUTTON",
     "hide_toc_button": "HIDE_TOC_BUTTON",
     "hide_print_button": "HIDE_PRINT_BUTTON",
+    "show_search_suggestions": "SHOW_SEARCH_SUGGESTIONS"
 }
 
 class InfoParser:
