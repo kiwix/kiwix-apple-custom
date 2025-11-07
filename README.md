@@ -65,7 +65,7 @@ These key / values can be, but do not need to be included in the `info.json` fil
 
 - `hide_print_button` - optional (true | false) - if set to true, it hides the print button available on macOS for currently loaded webpages. By default (if omitted) it's false.
 
-- `show_search_suggestions` - optional (true | false) - if set to true, it will use the libkiwix search suggestions. By default (if omitted) it's false.
+- `show_search_suggestions_spellchecked` - optional (true | false) - if set to true, it will use the libkiwix search spellchecked suggestions, if no search results are found. By default (if omitted) it's false.
 
 - `zim_recipe` - optional (url) - only informative and is only to help people to check more info on the ZIM, and if there is a new one available
 
