@@ -46,6 +46,7 @@ jobs:
         id: kiwix_latest_release
         uses: joutvhu/get-release@9a8271732adc3299a22f8ad09b0a67eb3aa836ac #v1.0.3
         with:
+          repo: kiwix-apple
           latest: true
           prerelease: false
         env:
