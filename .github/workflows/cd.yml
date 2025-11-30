@@ -41,23 +41,19 @@ jobs:
           python src/tag_validator.py ${{ steps.vars.outputs.tag }}
           cd ..
 
-      - name: Find latest stable release of kiwix-apple, unless triggering tag indicates develop branch
-        if: ${{ !contains(github.ref, '_dev') }}
-        id: kiwix_latest_release
-        uses: joutvhu/get-release@9a8271732adc3299a22f8ad09b0a67eb3aa836ac #v1.0.3
-        with:
-          repo: kiwix-apple
-          latest: true
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use the main branch latest commit of kiwix-apple, unless the json file indicates a specific commit SHA
+        id: kiwix_apple_repo
+        run:
+          # kiwix_apple_revision comes from the tag_validator.py
+          REVISION=$(<./apple/custom/.kiwix_apple_revision)
+          echo "reference=$REVISION" >> $GITHUB_OUTPUT
 
       - name: Check-out kiwix/kiwix-apple
         uses: actions/checkout@v4
         with:
           repository: kiwix/kiwix-apple
           path: apple
-          ref: ${{ !contains(github.ref, '_dev') && steps.kiwix_latest_release.outputs.tag_name || '' }}
+          ref: ${{ steps.kiwix_apple_repo.outputs.reference || '' }}
 
       - name: Install Python dependencies for custom project generation
         run: python -m pip install pyyaml

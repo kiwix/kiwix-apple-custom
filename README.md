@@ -35,6 +35,7 @@ existing one if you need to create a new custom app.
 
     If enforced_lang is not added to the info.json file, all languages will be supported by the app, just like in Kiwix.
 
+- `kiwix_apple_revision` - this contains either the value `latest` or a valid commit SHA from `kiwix-apple` repository, that will be used for the build.
 - `settings_default_external_link_to` - this controls how external links (pointing to content on the web, that are not included in the zimfile) should be treated. It can take one of the following values:
     - **"alwaysLoad"**: meaning it will leave the app, and open the link in the system browser, without asking
     - **"alwaysAsk"**: it will ask the user in a pop-up, before opening any external links
@@ -103,9 +104,6 @@ Where the:
 - `optional-part` - any value can be added here, it is only indicative, eg for different attempts to release the same app version, such as in the case of a failed build restart, eg: `dwds_2023.12.90_testing01`, `dwds_2023.12.90_testing02`. The value of the optional part is ignored in the build process, it is only an indicator, we can use to distinguish between attempts to release the very same version of an app.
 
 Note: Both iOS and macOS applications are created from the same source code and are versioned and released together.
-
-Currently the [latest stable release of the Kiwix Apple repository](https://github.com/kiwix/kiwix-apple/releases) is checked out to form a custom app release.
-If needed, the development branch of Kiwix can also be used, by adding "_dev" to the release tag, it can be added somewhere at the end of the tag, as all other tag validations (described above) still need to be met, eg: "dwds_2023.12.10_dev_01".
 
 # Release from an external Apple Account (non Kiwix)
 In order to use a different Apple Account for your app, further setup is required.

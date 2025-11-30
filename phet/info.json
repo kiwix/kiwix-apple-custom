@@ -11,6 +11,7 @@
   "hide_share_button": true,
   "hide_toc_button": true,
   "hide_print_button": true,
+  "kiwix_apple_revision": "latest",
   "settings_default_external_link_to": "alwaysLoad",
   "settings_show_external_link_option": true,
   "settings_show_search_snippet": false,

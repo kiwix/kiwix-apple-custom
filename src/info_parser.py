@@ -17,6 +17,7 @@ JSON_BUNDLE_ID = "bundle_id"
 JSON_KEY_APP_NAME = "app_name"
 JSON_KEY_ENFORCED_LANGUAGE = "enforced_lang"
 JSON_KEY_DEVELOPMENT_TEAM = "development_team"
+JSON_KEY_KIWIX_APPLE_REVISION = "kiwix_apple_revision"
 JSON_KEY_USES_AUDIO = "uses_audio"
 CUSTOM_ZIM_FILE_KEY = "CUSTOM_ZIM_FILE"
 JSON_TO_PLIST_MAPPING = {
@@ -54,6 +55,7 @@ class InfoParser:
                                               build_number=build_number)
         self.development_team_id = self._development_team()
         self.uses_audio = self.data[JSON_KEY_USES_AUDIO] == True
+        self.kiwix_apple_revision = self._kiwix_apple_revision()
 
     def create_plist(self, based_on_plist_file):
         with based_on_plist_file.open(mode="rb") as file:
@@ -145,6 +147,13 @@ class InfoParser:
 
     def _development_team(self):
         return self.data[JSON_KEY_DEVELOPMENT_TEAM]
+    
+    def _kiwix_apple_revision(self):
+        ref = self.data[JSON_KEY_KIWIX_APPLE_REVISION]
+        if ref.lower() == "latest":
+            return ""
+        else:
+            return ref
 
     def _dev_language(self):
         enforced = self._enforced_language()

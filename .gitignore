@@ -17,3 +17,6 @@ Brewfile_CI.lock.json
 bin
 lib
 pyvenv.cfg
+pixi.lock
+pixi.toml
+.pixi
