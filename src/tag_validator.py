@@ -44,6 +44,8 @@ def _is_valid(tag):
         Path('.build_number').write_text(f"{version.build_number}")
         Path('.version_number').write_text(f"{version.semantic}")
         Path('.team_id').write_text(f"{parser.development_team_id}")
+        Path('.kiwix_apple_revision').write_text(
+            f"{parser.kiwix_apple_revision}")
         
         # required as an output, we can pipe on:
         print(f"{brand.name} {version.build_number}")
