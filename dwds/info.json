@@ -6,6 +6,7 @@
     "bundle_id": "de.dwds.app",
     "development_team": "Q2QUKNPZG9",
     "enforced_lang": "de",
+    "kiwix_apple_revision": "latest",
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": false,
     "settings_show_search_snippet": false,

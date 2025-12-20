@@ -5,6 +5,7 @@
     "app_store_id": "id1281693200",
     "development_team": "L7HWM3SP3L",
     "enforced_lang": "en",
+    "kiwix_apple_revision": "latest",
     "settings_default_external_link_to": "alwaysLoad",
     "settings_show_external_link_option": true,
     "settings_show_search_snippet": false,
