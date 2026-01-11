@@ -13,7 +13,6 @@ on:
 env:
   KEYCHAIN: /Users/runner/build.keychain-db
   KEYCHAIN_PASSWORD: mysecretpassword
-  SSH_KEY: /tmp/id_rsa
   APPLE_STORE_AUTH_KEY_PATH: /tmp/authkey.p8
 
 jobs:
