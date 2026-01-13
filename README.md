@@ -4,7 +4,7 @@ Kiwix Apple custom apps are iOS/macOS apps running [Kiwix for
 Apple](https://github.com/kiwix/kiwix-apple) against a
 pre-configured ZIM file.
 
-This project contains data and scripts needed to create specific
+This project contains the data and scripts required to create specific
  custom Kiwix Apple apps.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/kiwix/kiwix-apple-custom/badge)](https://www.codefactor.io/repository/github/kiwix/kiwix-apple-custom)
