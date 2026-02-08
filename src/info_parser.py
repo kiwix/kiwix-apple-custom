@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from urllib.parse import urlparse
+from datetime import datetime
 import json
 from pathlib import Path
 from version import Version
@@ -82,6 +83,7 @@ class InfoParser:
             "templates": ["ApplicationTemplate"],
             "settings": {"base": {
                 "MARKETING_VERSION": self.version.semantic,
+                "CURRENT_PROJECT_VERSION": float(datetime.now().strftime("%Y%m%d.%H%M")),
                 "PRODUCT_BUNDLE_IDENTIFIER": self._bundle_id(),
                 "INFOPLIST_FILE": f"custom/{self._info_plist_path()}",
                 "INFOPLIST_KEY_CFBundleDisplayName": self._app_name(),
