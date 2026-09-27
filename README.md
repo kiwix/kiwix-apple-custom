@@ -203,6 +203,8 @@ From this step you will have the values for the following GitHub secret keys:
 In order to test the app, and in order to even upload it to TestFlight, physical devices needs to be registered on the Apple Developer Account.
 It can be done either via XCode, or via the AppStore Connect, as described here:
 https://developer.apple.com/help/account/register-devices/register-a-single-device/
+Also read the full user side process here:
+https://github.com/kiwix/kiwix-apple/wiki/Testflight-onboarding-new-user---device-%E2%80%90-step-by-step
 
 ## Create a provisioning profile
 Uploading builds to TestFlight requires at least one provision profile to be added.
