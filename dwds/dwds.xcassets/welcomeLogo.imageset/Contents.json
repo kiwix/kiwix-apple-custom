@@ -3,6 +3,16 @@
     {
       "filename" : "dwds_sq_up.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "dwds_sq_up_dark.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
